@@ -1,0 +1,311 @@
+{
+  "program": "01_clean_dm",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\01_clean_dm.sas",
+  "blocks": [
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 2,
+      "line_end": 2,
+      "raw_text_head": "options\n  mprint mlogic symbolgen            \n  missing=' '                        \n  fmtsearch=(work)                   \n  nodate nonumber"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 7,
+      "line_end": 7,
+      "raw_text_head": "%let PROJ_ROOT = %sysfunc(getoption(SASUSER))"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 8,
+      "line_end": 8,
+      "raw_text_head": "libname raw   \"%sysfunc(getoption(SASUSER))/input_data\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 9,
+      "line_end": 9,
+      "raw_text_head": "libname adam  \"%sysfunc(getoption(SASUSER))/adam\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 10,
+      "line_end": 10,
+      "raw_text_head": "libname tgt   \"%sysfunc(getoption(SASUSER))/output\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 11,
+      "line_end": 11,
+      "raw_text_head": "%put NOTE: Setup complete. PROJ_ROOT=&PROJ_ROOT"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.dm_stage"
+      ],
+      "input_datasets": [
+        "raw.dm"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set raw.dm",
+          "line": 13
+        },
+        {
+          "kind": "sum_assign",
+          "col": "rfstdt",
+          "expr": "(input(substr(strip(rfstdtc), 1, 10), ?? yymmdd10.))",
+          "line": 14,
+          "raw": "rfstdt = (input(substr(strip(rfstdtc), 1, 10), ?? yymmdd10.))"
+        },
+        {
+          "kind": "sum_assign",
+          "col": "rfendt",
+          "expr": "(input(substr(strip(rfendtc), 1, 10), ?? yymmdd10.))",
+          "line": 15,
+          "raw": "rfendt = (input(substr(strip(rfendtc), 1, 10), ?? yymmdd10.))"
+        },
+        {
+          "kind": "sum_assign",
+          "col": "brthdt",
+          "expr": "(input(substr(strip(brthdtc), 1, 10), ?? yymmdd10.))",
+          "line": 16,
+          "raw": "brthdt = (input(substr(strip(brthdtc), 1, 10), ?? yymmdd10.))"
+        },
+        {
+          "kind": "format",
+          "raw": "format rfstdt rfendt brthdt yymmdd10.",
+          "line": 17
+        },
+        {
+          "kind": "if_assign",
+          "col": "age_derived",
+          "expr": "(floor((rfstdt - brthdt) / 365.25))",
+          "else_col": "age_derived",
+          "else_expr": null,
+          "line": 18,
+          "raw": "if not missing(brthdt) and not missing(rfstdt) then\n    age_derived = (floor((rfstdt - brthdt) / 365.25))"
+        },
+        {
+          "kind": "raw",
+          "raw": "else\n    age_derived = .",
+          "line": 20
+        },
+        {
+          "kind": "if_assign",
+          "col": "age",
+          "expr": "age_derived",
+          "else_col": "age",
+          "else_expr": null,
+          "line": 22,
+          "raw": "if missing(age) then age = age_derived"
+        },
+        {
+          "kind": "if_assign",
+          "col": "trtdurd",
+          "expr": "rfendt - rfstdt + 1",
+          "else_col": "trtdurd",
+          "else_expr": null,
+          "line": 23,
+          "raw": "if not missing(rfstdt) and not missing(rfendt) then\n    trtdurd = rfendt - rfstdt + 1"
+        }
+      ],
+      "line_start": 12,
+      "line_end": 25,
+      "raw_text_head": "data work.dm_stage"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [
+        "work.dm_stage"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by usubjid descending recordcreatedt",
+          "line": 27
+        }
+      ],
+      "line_start": 26,
+      "line_end": 28,
+      "raw_text_head": "proc sort data=work.dm_stage"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.dm_dedup"
+      ],
+      "input_datasets": [
+        "work.dm_stage"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.dm_stage",
+          "line": 30
+        },
+        {
+          "kind": "by",
+          "raw": "by usubjid",
+          "line": 31
+        },
+        {
+          "kind": "raw",
+          "raw": "if first.usubjid",
+          "line": 32
+        }
+      ],
+      "line_start": 29,
+      "line_end": 33,
+      "raw_text_head": "data work.dm_dedup"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "adam.dm_clean"
+      ],
+      "input_datasets": [
+        "work.dm_dedup"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.dm_dedup",
+          "line": 35
+        },
+        {
+          "kind": "length",
+          "raw": "length sex_decode arm_decode $40",
+          "line": 36
+        },
+        {
+          "kind": "sum_assign",
+          "col": "sex_decode",
+          "expr": "put(sex, $sexfmt.)",
+          "line": 37,
+          "raw": "sex_decode = put(sex, $sexfmt.)"
+        },
+        {
+          "kind": "sum_assign",
+          "col": "arm_decode",
+          "expr": "put(arm, $armfmt.)",
+          "line": 38,
+          "raw": "arm_decode = put(arm, $armfmt.)"
+        },
+        {
+          "kind": "sum_assign",
+          "col": "agegrp",
+          "expr": "put(age, agegrp.)",
+          "line": 39,
+          "raw": "agegrp     = put(age, agegrp.)"
+        },
+        {
+          "kind": "label",
+          "raw": "label\n    usubjid     = 'Unique Subject Identifier'\n    age         = 'Age (years)'\n    age_derived = 'Age derived from birth date'\n    sex         = 'Sex code'\n    sex_decode  = 'Sex (decoded)'\n    arm         = 'Treatment arm code'\n    arm_decode  = 'Treatment arm'\n    rfstdt      = 'Reference start date'\n    rfendt      = 'Reference end date'\n    trtdurd     = 'Treatment duration (days)'\n    agegrp      = 'Age group'",
+          "line": 40
+        },
+        {
+          "kind": "keep",
+          "cols": [
+            "usubjid",
+            "age",
+            "age_derived",
+            "agegrp",
+            "sex",
+            "sex_decode",
+            "race",
+            "arm",
+            "arm_decode",
+            "rfstdt",
+            "rfendt",
+            "trtdurd",
+            "siteid"
+          ],
+          "line": 52,
+          "raw": "keep usubjid age age_derived agegrp sex sex_decode race\n       arm arm_decode rfstdt rfendt trtdurd siteid"
+        }
+      ],
+      "line_start": 34,
+      "line_end": 54,
+      "raw_text_head": "data adam.dm_clean"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 55,
+      "line_end": 55,
+      "raw_text_head": "%put NOTE: 01_clean_dm.sas complete. Output: ADAM.DM_CLEAN"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": [
+    {
+      "macro": "iso_to_sasdate",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\01_clean_dm.sas",
+      "line": 10,
+      "arg_text": "var=rfstdtc"
+    },
+    {
+      "macro": "iso_to_sasdate",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\01_clean_dm.sas",
+      "line": 11,
+      "arg_text": "var=rfendtc"
+    },
+    {
+      "macro": "iso_to_sasdate",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\01_clean_dm.sas",
+      "line": 12,
+      "arg_text": "var=brthdtc"
+    },
+    {
+      "macro": "calc_age",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\01_clean_dm.sas",
+      "line": 17,
+      "arg_text": "birth=brthdt, ref=rfstdt"
+    }
+  ]
+}

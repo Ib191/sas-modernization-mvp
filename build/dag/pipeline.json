@@ -1,0 +1,74 @@
+{
+  "topological_order": [
+    "01_clean_dm",
+    "02_clean_ae",
+    "03_derive_adsl",
+    "04_derive_adae",
+    "05_summary_safety"
+  ],
+  "levels": [
+    [
+      "01_clean_dm",
+      "02_clean_ae"
+    ],
+    [
+      "03_derive_adsl"
+    ],
+    [
+      "04_derive_adae"
+    ],
+    [
+      "05_summary_safety"
+    ]
+  ],
+  "edges": [
+    {
+      "from": "03_derive_adsl",
+      "to": "01_clean_dm",
+      "kind": "depends_on",
+      "via_dataset": "adam.dm_clean"
+    },
+    {
+      "from": "04_derive_adae",
+      "to": "02_clean_ae",
+      "kind": "depends_on",
+      "via_dataset": "adam.ae_clean"
+    },
+    {
+      "from": "04_derive_adae",
+      "to": "03_derive_adsl",
+      "kind": "depends_on",
+      "via_dataset": "adam.adsl"
+    },
+    {
+      "from": "05_summary_safety",
+      "to": "03_derive_adsl",
+      "kind": "depends_on",
+      "via_dataset": "adam.adsl"
+    },
+    {
+      "from": "05_summary_safety",
+      "to": "04_derive_adae",
+      "kind": "depends_on",
+      "via_dataset": "adam.adae"
+    }
+  ],
+  "outputs_per_program": {
+    "01_clean_dm": [
+      "adam.dm_clean"
+    ],
+    "02_clean_ae": [
+      "adam.ae_clean"
+    ],
+    "03_derive_adsl": [
+      "adam.adsl"
+    ],
+    "04_derive_adae": [
+      "adam.adae"
+    ],
+    "05_summary_safety": [
+      "adam.ae_summary",
+      "adam.ae_incidence"
+    ]
+  }
+}

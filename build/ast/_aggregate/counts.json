@@ -1,0 +1,162 @@
+{
+  "programs": [
+    {
+      "program": "setup",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\config\\setup.sas",
+      "lines_of_source": 25,
+      "data_blocks": 0,
+      "proc_blocks": 0,
+      "procs_by_kind": {},
+      "input_datasets": [],
+      "output_datasets": []
+    },
+    {
+      "program": "formats",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\config\\formats.sas",
+      "lines_of_source": 58,
+      "data_blocks": 0,
+      "proc_blocks": 1,
+      "procs_by_kind": {
+        "format": 1
+      },
+      "input_datasets": [],
+      "output_datasets": []
+    },
+    {
+      "program": "util_macros",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "lines_of_source": 71,
+      "data_blocks": 0,
+      "proc_blocks": 0,
+      "procs_by_kind": {},
+      "input_datasets": [],
+      "output_datasets": []
+    },
+    {
+      "program": "01_clean_dm",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\01_clean_dm.sas",
+      "lines_of_source": 79,
+      "data_blocks": 3,
+      "proc_blocks": 1,
+      "procs_by_kind": {
+        "sort": 1
+      },
+      "input_datasets": [
+        "raw.dm",
+        "work.dm_dedup",
+        "work.dm_stage"
+      ],
+      "output_datasets": [
+        "adam.dm_clean",
+        "work.dm_dedup",
+        "work.dm_stage"
+      ]
+    },
+    {
+      "program": "02_clean_ae",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\02_clean_ae.sas",
+      "lines_of_source": 95,
+      "data_blocks": 4,
+      "proc_blocks": 3,
+      "procs_by_kind": {
+        "sort": 3
+      },
+      "input_datasets": [
+        "raw.ae",
+        "work.ae_for_max",
+        "work.ae_max_sev",
+        "work.ae_seq",
+        "work.ae_stage"
+      ],
+      "output_datasets": [
+        "adam.ae_clean",
+        "work.ae_for_max",
+        "work.ae_max_sev",
+        "work.ae_seq",
+        "work.ae_stage"
+      ]
+    },
+    {
+      "program": "03_derive_adsl",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\03_derive_adsl.sas",
+      "lines_of_source": 66,
+      "data_blocks": 2,
+      "proc_blocks": 2,
+      "procs_by_kind": {
+        "sql": 2
+      },
+      "input_datasets": [
+        "adam.dm_clean",
+        "raw.site_lookup",
+        "work.adsl_pre",
+        "work.dm_with_site"
+      ],
+      "output_datasets": [
+        "adam.adsl",
+        "work.adsl_pre",
+        "work.dm_with_site"
+      ]
+    },
+    {
+      "program": "04_derive_adae",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\04_derive_adae.sas",
+      "lines_of_source": 63,
+      "data_blocks": 2,
+      "proc_blocks": 2,
+      "procs_by_kind": {
+        "sort": 2
+      },
+      "input_datasets": [
+        "adam.adsl",
+        "adam.ae_clean",
+        "work.adae_pre",
+        "work.adsl_sub",
+        "work.ae_sorted"
+      ],
+      "output_datasets": [
+        "adam.adae",
+        "work.adae_pre",
+        "work.adsl_sub",
+        "work.ae_sorted"
+      ]
+    },
+    {
+      "program": "05_summary_safety",
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\05_summary_safety.sas",
+      "lines_of_source": 76,
+      "data_blocks": 0,
+      "proc_blocks": 6,
+      "procs_by_kind": {
+        "sql": 4,
+        "sort": 1,
+        "summary": 1
+      },
+      "input_datasets": [
+        "adam.adae",
+        "adam.adsl",
+        "work.ae_counts",
+        "work.ae_subj",
+        "work.denom"
+      ],
+      "output_datasets": [
+        "adam.ae_incidence",
+        "adam.ae_summary",
+        "work.ae_counts",
+        "work.ae_subj",
+        "work.denom"
+      ]
+    }
+  ],
+  "totals": {
+    "data_blocks": 11,
+    "proc_blocks": 15,
+    "macro_defs": 5,
+    "macro_call_sites": 9,
+    "by_proc": {
+      "format": 1,
+      "sort": 7,
+      "sql": 6,
+      "summary": 1
+    }
+  }
+}

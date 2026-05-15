@@ -1,0 +1,125 @@
+{
+  "program": "05_summary_safety",
+  "nodes": [
+    {
+      "id": "adam.adsl",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.denom",
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.adae",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_subj",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_counts",
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.ae_incidence",
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.ae_summary",
+      "kind": "Dataset"
+    }
+  ],
+  "edges": [
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "adam.adsl",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.denom",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "adam.adsl",
+      "to": "work.denom",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "adam.adae",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.ae_subj",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "adam.adae",
+      "to": "work.ae_subj",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.ae_subj",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.ae_subj",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.ae_counts",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "work.ae_subj",
+      "to": "work.ae_counts",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.ae_counts",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "work.denom",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "adam.ae_incidence",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "work.ae_counts",
+      "to": "adam.ae_incidence",
+      "kind": "produces"
+    },
+    {
+      "from": "work.denom",
+      "to": "adam.ae_incidence",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "adam.adae",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:05_summary_safety",
+      "to": "adam.ae_summary",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "adam.adae",
+      "to": "adam.ae_summary",
+      "kind": "produces"
+    }
+  ]
+}

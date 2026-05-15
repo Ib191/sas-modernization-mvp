@@ -1,0 +1,975 @@
+{
+  "documents": [
+    {
+      "file": "sas_codebase/docs/functional_spec.md",
+      "sections": [
+        {
+          "title": "CTX-2024-001 ADaM Pipeline \u2014 Functional Specification",
+          "level": 1,
+          "line_start": 1,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " **Study**: CTX-2024-001, Phase 2 dose-ranging **Document version**: 1.3 (2024-02-28) **Owner**: Statistical Programming"
+        },
+        {
+          "title": "1. Purpose",
+          "level": 2,
+          "line_start": 10,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " This document specifies the analysis dataset (ADaM) derivations for the CTX-2024-001 safety analyses. It is the contract between Stats Programming and the Reporting team. The CSR shells reference dataset names and column"
+        },
+        {
+          "title": "2. Pipeline overview",
+          "level": 2,
+          "line_start": 17,
+          "datasets": [
+            "adae",
+            "adsl",
+            "ae_clean",
+            "ae_incidence",
+            "ae_summary",
+            "dm_clean",
+            "raw.ae",
+            "raw.dm",
+            "site_lookup"
+          ],
+          "columns": [
+            "ADAE",
+            "ADSL",
+            "AE_CLEAN",
+            "AE_INCIDENCE",
+            "AE_SUMMARY",
+            "DM_CLEAN"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " Five SAS programs produce the ADaM datasets and summary tables:  | # | Program            | Output         | Depends on          |"
+        },
+        {
+          "title": "3. Inputs",
+          "level": 2,
+          "line_start": 32,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": ""
+        },
+        {
+          "title": "3.1 RAW.DM \u2014 Demographics",
+          "level": 3,
+          "line_start": 34,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "One row per subject (in principle; see \u00a76.1 on duplicates).  Columns: `USUBJID, AGE, SEX, RACE, ARM, SITEID, BRTHDTC, RFSTDTC, RFENDTC, RECORDCREATEDT` "
+        },
+        {
+          "title": "3.2 RAW.AE \u2014 Adverse Events",
+          "level": 3,
+          "line_start": 41,
+          "datasets": [],
+          "columns": [
+            "AESEV"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "Multiple rows per subject. Severity (`AESEV`) is captured on the CRF as free text and must be standardized. See \u00a74.2.  Columns: `USUBJID, AETERM, AESEV, AESER, AESTDTC, AEENDTC`"
+        },
+        {
+          "title": "3.3 RAW.SITE_LOOKUP \u2014 Site reference",
+          "level": 3,
+          "line_start": 47,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "Site descriptors. Joins to DM on site identifier.  Columns: `SITE_ID, SITE_NAME, SITE_COUNTRY, SITE_REGION` "
+        },
+        {
+          "title": "4. Derivation rules",
+          "level": 2,
+          "line_start": 52,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": ""
+        },
+        {
+          "title": "4.1 Demographics cleaning (`DM_CLEAN`)",
+          "level": 3,
+          "line_start": 54,
+          "datasets": [],
+          "columns": [
+            "AGE",
+            "AGEGRP",
+            "ARM_DECODE",
+            "BRTHDTC",
+            "RECORDCREATEDT",
+            "RFSTDTC",
+            "SEX_DECODE",
+            "USUBJID"
+          ],
+          "bullets": [
+            {
+              "line": 56,
+              "text": "Convert all ISO date strings to SAS dates."
+            },
+            {
+              "line": 57,
+              "text": "Where `AGE` is missing, derive from `BRTHDTC` and `RFSTDTC` using"
+            },
+            {
+              "line": 59,
+              "text": "Apply formats from `formats.sas` to derive `SEX_DECODE`, `ARM_DECODE`,"
+            },
+            {
+              "line": 61,
+              "text": "Compute `TRTDURD = RFENDT - RFSTDT + 1`."
+            },
+            {
+              "line": 62,
+              "text": "**Deduplication**: where multiple records exist for one `USUBJID`,"
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - Convert all ISO date strings to SAS dates. - Where `AGE` is missing, derive from `BRTHDTC` and `RFSTDTC` using   365.25 days/year and FLOOR."
+        },
+        {
+          "title": "4.2 AE cleaning (`AE_CLEAN`)",
+          "level": 3,
+          "line_start": 65,
+          "datasets": [],
+          "columns": [
+            "AESEQ",
+            "AESTDTC",
+            "AETERM",
+            "MAX_AESEV",
+            "MILD",
+            "MODERATE",
+            "SEVERE"
+          ],
+          "bullets": [
+            {
+              "line": 67,
+              "text": "Convert dates as above."
+            },
+            {
+              "line": 68,
+              "text": "Standardize severity to `MILD` / `MODERATE` / `SEVERE`. Accepted raw"
+            },
+            {
+              "line": 74,
+              "text": "Drop records where `AESTDTC` or `AETERM` is missing."
+            },
+            {
+              "line": 75,
+              "text": "Assign `AESEQ` within subject, ordered by start date then term."
+            },
+            {
+              "line": 76,
+              "text": "Derive `MAX_AESEV` per subject (worst severity observed)."
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - Convert dates as above. - Standardize severity to `MILD` / `MODERATE` / `SEVERE`. Accepted raw   values: `'MILD'`, `'MODERATE'`, `'MOD'`, `'SEVERE'`, `'SEV'`,"
+        },
+        {
+          "title": "4.3 ADSL derivations",
+          "level": 3,
+          "line_start": 78,
+          "datasets": [
+            "dm_clean",
+            "site_lookup"
+          ],
+          "columns": [
+            "DM_CLEAN",
+            "RFSTDT",
+            "SITE_LOOKUP"
+          ],
+          "bullets": [
+            {
+              "line": 80,
+              "text": "Left join `DM_CLEAN` to `SITE_LOOKUP` on site identifier."
+            },
+            {
+              "line": 81,
+              "text": "**Safety population (SAFFL)**: subject has `RFSTDT` populated."
+            },
+            {
+              "line": 82,
+              "text": "**ITT population (ITTFL)**: `SAFFL = 'Y'` and `ARM \u2260 'PLACEBO'`."
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - Left join `DM_CLEAN` to `SITE_LOOKUP` on site identifier. - **Safety population (SAFFL)**: subject has `RFSTDT` populated. - **ITT population (ITTFL)**: `SAFFL = 'Y'` and `ARM \u2260 'PLACEBO'`."
+        },
+        {
+          "title": "4.4 ADAE derivations",
+          "level": 3,
+          "line_start": 84,
+          "datasets": [
+            "adsl",
+            "ae_clean"
+          ],
+          "columns": [
+            "ADSL",
+            "AE_CLEAN",
+            "USUBJID"
+          ],
+          "bullets": [
+            {
+              "line": 86,
+              "text": "Inner join `AE_CLEAN` to `ADSL` on `USUBJID`."
+            },
+            {
+              "line": 87,
+              "text": "**Treatment-emergent flag (TRTEMFL)**: `'Y'` if AE start date is on"
+            },
+            {
+              "line": 90,
+              "text": "**On-treatment flag (ONTRTFL)**: AE start date within"
+            },
+            {
+              "line": 92,
+              "text": "Compute `ASTDY = AESTDT - RFSTDT + 1`."
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - Inner join `AE_CLEAN` to `ADSL` on `USUBJID`. - **Treatment-emergent flag (TRTEMFL)**: `'Y'` if AE start date is on   or after first dose. *(See \u00a76.3 \u2014 implementation uses cohort"
+        },
+        {
+          "title": "4.5 Safety summaries",
+          "level": 3,
+          "line_start": 94,
+          "datasets": [
+            "ae_incidence",
+            "ae_summary"
+          ],
+          "columns": [
+            "AE_INCIDENCE",
+            "AE_SUMMARY"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " `AE_SUMMARY`: counts of treatment-emergent AEs by `ARM \u00d7 SEVERITY`, with serious-AE counts. "
+        },
+        {
+          "title": "5. Formats",
+          "level": 2,
+          "line_start": 103,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " Defined in `config/formats.sas`. All programs `%include` this file. "
+        },
+        {
+          "title": "6. Known issues / open items",
+          "level": 2,
+          "line_start": 107,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": ""
+        },
+        {
+          "title": "6.1 DM duplicates (resolved by dedup logic)",
+          "level": 3,
+          "line_start": 109,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "A 2023 CRF amendment caused some subjects to appear twice in the raw extract. The dedup step in \u00a74.1 handles this. "
+        },
+        {
+          "title": "6.2 Vendor B severity codes (deferred)",
+          "level": 3,
+          "line_start": 113,
+          "datasets": [
+            "ae_summary"
+          ],
+          "columns": [
+            "AESEV_STD",
+            "AE_SUMMARY"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "~5% of AE records arrive with `GRADE 1`/`GRADE 2`/`GRADE 3` style codes. These are NOT mapped in v1.3. Their `AESEV_STD` will be blank and they will appear in the \"blank severity\" row of `AE_SUMMARY`. Tracked as SP-184. Decision deferred to data review meeting."
+        },
+        {
+          "title": "6.3 \"First dose\" vs \"randomization\" date for TRTEMFL",
+          "level": 3,
+          "line_start": 119,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "The TRTEMFL definition in \u00a74.4 says \"first dose date\". The current implementation uses the cohort-level latest randomization date as a proxy. The medical monitor accepted this for v1.3 but flagged it for review in v1.4 (SP-227)."
+        },
+        {
+          "title": "6.4 Site lookup join",
+          "level": 3,
+          "line_start": 125,
+          "datasets": [
+            "site_lookup"
+          ],
+          "columns": [
+            "SITEID",
+            "SITE_ID"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": "DM stores `SITEID` as character (`'01'`, `'02'`...). The SITE_LOOKUP extract delivers `SITE_ID` as numeric (1, 2...). The PROC SQL join relies on SAS implicit type conversion. Works in SAS, but flagged during code review as a portability concern."
+        },
+        {
+          "title": "7. Out of scope (v1.3)",
+          "level": 2,
+          "line_start": 131,
+          "datasets": [],
+          "columns": [],
+          "bullets": [
+            {
+              "line": 133,
+              "text": "Vital signs, labs, ECG processing"
+            },
+            {
+              "line": 134,
+              "text": "Concomitant medications"
+            },
+            {
+              "line": 135,
+              "text": "Death and discontinuation rates"
+            },
+            {
+              "line": 136,
+              "text": "Subgroup analyses beyond age group and sex"
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - Vital signs, labs, ECG processing - Concomitant medications - Death and discontinuation rates"
+        }
+      ]
+    },
+    {
+      "file": "sas_codebase/docs/data_dictionary.md",
+      "sections": [
+        {
+          "title": "CTX-2024-001 Data Dictionary",
+          "level": 1,
+          "line_start": 1,
+          "datasets": [],
+          "columns": [],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " This dictionary documents column-level semantics for the raw inputs and ADaM outputs. Format: `column \u2014 type \u2014 description`. "
+        },
+        {
+          "title": "RAW.DM",
+          "level": 2,
+          "line_start": 6,
+          "datasets": [
+            "site_lookup"
+          ],
+          "columns": [
+            "AGE",
+            "ARM",
+            "BRTHDTC",
+            "DRUG_X_HI",
+            "DRUG_X_LOW",
+            "PLACEBO",
+            "RACE",
+            "RECORDCREATEDT",
+            "RFENDTC",
+            "RFSTDTC",
+            "SEX",
+            "SITEID",
+            "USUBJID"
+          ],
+          "bullets": [
+            {
+              "line": 8,
+              "text": "`USUBJID` \u2014 char(20) \u2014 Unique subject identifier. Format `CTX-NNN`. **Primary key after dedup.**"
+            },
+            {
+              "line": 9,
+              "text": "`AGE` \u2014 num \u2014 Age in years at reference start. May be missing; derive from `BRTHDTC` if so."
+            },
+            {
+              "line": 10,
+              "text": "`SEX` \u2014 char(1) \u2014 `M`, `F`, `U`. Decoded via `$sexfmt`."
+            },
+            {
+              "line": 11,
+              "text": "`RACE` \u2014 char(20) \u2014 Free-form, controlled by CRF dropdown."
+            },
+            {
+              "line": 12,
+              "text": "`ARM` \u2014 char(20) \u2014 Treatment arm code: `PLACEBO`, `DRUG_X_LOW`, `DRUG_X_HI`."
+            },
+            {
+              "line": 13,
+              "text": "`SITEID` \u2014 **char(2)** \u2014 Site identifier with leading zeros. *Note:* differs in type from `SITE_LOOKUP.SITE_ID`."
+            },
+            {
+              "line": 14,
+              "text": "`BRTHDTC` \u2014 char(10) \u2014 ISO 8601 date of birth."
+            },
+            {
+              "line": 15,
+              "text": "`RFSTDTC` \u2014 char(10) \u2014 ISO 8601 reference start (first dose)."
+            },
+            {
+              "line": 16,
+              "text": "`RFENDTC` \u2014 char(10) \u2014 ISO 8601 reference end (last dose / end of treatment)."
+            },
+            {
+              "line": 17,
+              "text": "`RECORDCREATEDT` \u2014 char(10) \u2014 ISO 8601, set by EDC. Used for dedup tiebreak."
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - `USUBJID` \u2014 char(20) \u2014 Unique subject identifier. Format `CTX-NNN`. **Primary key after dedup.** - `AGE` \u2014 num \u2014 Age in years at reference start. May be missing; derive from `BRTHDTC` if so. - `SEX` \u2014 char(1) \u2014 `M`, `F`, `U`. Decoded via `$sexfmt`."
+        },
+        {
+          "title": "RAW.AE",
+          "level": 2,
+          "line_start": 19,
+          "datasets": [],
+          "columns": [
+            "AEENDTC",
+            "AESER",
+            "AESEV",
+            "AESTDTC",
+            "AETERM",
+            "MILD",
+            "MOD",
+            "MODERATE",
+            "SEV",
+            "SEVERE",
+            "USUBJID"
+          ],
+          "bullets": [
+            {
+              "line": 21,
+              "text": "`USUBJID` \u2014 char(20) \u2014 FK to DM."
+            },
+            {
+              "line": 22,
+              "text": "`AETERM` \u2014 char(60) \u2014 Reported term (free text). Not standardized to MedDRA in v1.3."
+            },
+            {
+              "line": 23,
+              "text": "`AESEV` \u2014 char(20) \u2014 Severity, raw. May contain `MILD`/`MODERATE`/`MOD`/`SEVERE`/`SEV`/`1`/`2`/`3`/`GRADE 1`/`GRADE 2`/`GRADE 3`."
+            },
+            {
+              "line": 24,
+              "text": "`AESER` \u2014 char(1) \u2014 `Y`/`N`. Serious AE indicator."
+            },
+            {
+              "line": 25,
+              "text": "`AESTDTC` \u2014 char(10) \u2014 Onset date, ISO 8601. May be missing."
+            },
+            {
+              "line": 26,
+              "text": "`AEENDTC` \u2014 char(10) \u2014 End date, ISO 8601. Often missing for ongoing events."
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - `USUBJID` \u2014 char(20) \u2014 FK to DM. - `AETERM` \u2014 char(60) \u2014 Reported term (free text). Not standardized to MedDRA in v1.3. - `AESEV` \u2014 char(20) \u2014 Severity, raw. May contain `MILD`/`MODERATE`/`MOD`/`SEVERE`/`SEV`/`1`/`2`/`3`/`GRADE 1`/`GRADE 2`/`GRADE 3`."
+        },
+        {
+          "title": "RAW.SITE_LOOKUP",
+          "level": 2,
+          "line_start": 28,
+          "datasets": [],
+          "columns": [
+            "APAC",
+            "EU",
+            "LATAM",
+            "NA",
+            "SITE_COUNTRY",
+            "SITE_ID",
+            "SITE_NAME",
+            "SITE_REGION"
+          ],
+          "bullets": [
+            {
+              "line": 30,
+              "text": "`SITE_ID` \u2014 **num** \u2014 Site identifier. *Note:* numeric, vs char in DM."
+            },
+            {
+              "line": 31,
+              "text": "`SITE_NAME` \u2014 char(60)"
+            },
+            {
+              "line": 32,
+              "text": "`SITE_COUNTRY` \u2014 char(3) \u2014 ISO 3166-1 alpha-3."
+            },
+            {
+              "line": 33,
+              "text": "`SITE_REGION` \u2014 char(10) \u2014 `NA`, `EU`, `APAC`, `LATAM`."
+            }
+          ],
+          "open_issues": [],
+          "body_preview": " - `SITE_ID` \u2014 **num** \u2014 Site identifier. *Note:* numeric, vs char in DM. - `SITE_NAME` \u2014 char(60) - `SITE_COUNTRY` \u2014 char(3) \u2014 ISO 3166-1 alpha-3."
+        },
+        {
+          "title": "ADAM.DM_CLEAN (output)",
+          "level": 2,
+          "line_start": 35,
+          "datasets": [],
+          "columns": [
+            "AGEGRP",
+            "AGE_DERIVED",
+            "ARM_DECODE",
+            "BRTHDTC",
+            "RECORDCREATEDT",
+            "RFENDT",
+            "RFENDTC",
+            "RFSTDT",
+            "RFSTDTC",
+            "SEX_DECODE",
+            "TRTDURD"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " Adds derived columns: `AGE_DERIVED`, `AGEGRP`, `SEX_DECODE`, `ARM_DECODE`, `RFSTDT` (numeric date), `RFENDT` (numeric date), `TRTDURD`. Drops `BRTHDTC`, `RFSTDTC`, `RFENDTC`, `RECORDCREATEDT` from the keep list."
+        },
+        {
+          "title": "ADAM.AE_CLEAN (output)",
+          "level": 2,
+          "line_start": 41,
+          "datasets": [],
+          "columns": [
+            "AEDUR",
+            "AEENDT",
+            "AESEQ",
+            "AESEVN",
+            "AESEV_STD",
+            "AESTDT",
+            "MAX_AESEV",
+            "MAX_AESEVN"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " Adds: `AESEQ` (within-subject sequence), `AESTDT`, `AEENDT`, `AEDUR`, `AESEV_STD`, `AESEVN`, `MAX_AESEV`, `MAX_AESEVN`. "
+        },
+        {
+          "title": "ADAM.ADSL (output)",
+          "level": 2,
+          "line_start": 46,
+          "datasets": [
+            "dm_clean"
+          ],
+          "columns": [
+            "ITTFL",
+            "SAFFL",
+            "SITE_COUNTRY",
+            "SITE_NAME",
+            "SITE_REGION"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " DM_CLEAN columns plus site descriptors and population flags: `SITE_NAME`, `SITE_COUNTRY`, `SITE_REGION`, `SAFFL`, `ITTFL`. "
+        },
+        {
+          "title": "ADAM.ADAE (output)",
+          "level": 2,
+          "line_start": 51,
+          "datasets": [
+            "ae_clean"
+          ],
+          "columns": [
+            "AGE",
+            "AGEGRP",
+            "ARM",
+            "ARM_DECODE",
+            "ASTDY",
+            "ITTFL",
+            "ONTRTFL",
+            "RFENDT",
+            "RFSTDT",
+            "SAFFL",
+            "SEX",
+            "TRTEMFL"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " AE_CLEAN columns plus subject context: `AGE`, `AGEGRP`, `SEX`, `ARM`, `ARM_DECODE`, `RFSTDT`, `RFENDT`, `SAFFL`, `ITTFL`, `TRTEMFL`, `ONTRTFL`, `ASTDY`."
+        },
+        {
+          "title": "ADAM.AE_SUMMARY (output)",
+          "level": 2,
+          "line_start": 57,
+          "datasets": [],
+          "columns": [
+            "ARM",
+            "ARM_DECODE",
+            "N_EVENTS",
+            "N_SERIOUS",
+            "SEVERITY"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " Grouped counts: `ARM`, `ARM_DECODE`, `SEVERITY`, `N_EVENTS`, `N_SERIOUS`. Filtered to `TRTEMFL = 'Y'`. "
+        },
+        {
+          "title": "ADAM.AE_INCIDENCE (output)",
+          "level": 2,
+          "line_start": 62,
+          "datasets": [],
+          "columns": [
+            "ARM",
+            "ARM_DECODE",
+            "INCIDENCE_RATE",
+            "N_SUBJ_TOTAL",
+            "N_SUBJ_WITH_AE",
+            "WORST_SEVERITY",
+            "WORST_SEVERITY_RANK"
+          ],
+          "bullets": [],
+          "open_issues": [],
+          "body_preview": " Subject-level worst severity rates: `ARM`, `ARM_DECODE`, `WORST_SEVERITY`, `WORST_SEVERITY_RANK`, `N_SUBJ_WITH_AE`, `N_SUBJ_TOTAL`, `INCIDENCE_RATE`."
+        }
+      ]
+    }
+  ],
+  "business_rules": [
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 56,
+      "text": "Convert all ISO date strings to SAS dates.",
+      "datasets": [],
+      "columns": [
+        "AGE",
+        "AGEGRP",
+        "ARM_DECODE",
+        "BRTHDTC",
+        "RECORDCREATEDT",
+        "RFSTDTC",
+        "SEX_DECODE",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 57,
+      "text": "Where `AGE` is missing, derive from `BRTHDTC` and `RFSTDTC` using",
+      "datasets": [],
+      "columns": [
+        "AGE",
+        "AGEGRP",
+        "ARM_DECODE",
+        "BRTHDTC",
+        "RECORDCREATEDT",
+        "RFSTDTC",
+        "SEX_DECODE",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 59,
+      "text": "Apply formats from `formats.sas` to derive `SEX_DECODE`, `ARM_DECODE`,",
+      "datasets": [],
+      "columns": [
+        "AGE",
+        "AGEGRP",
+        "ARM_DECODE",
+        "BRTHDTC",
+        "RECORDCREATEDT",
+        "RFSTDTC",
+        "SEX_DECODE",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 61,
+      "text": "Compute `TRTDURD = RFENDT - RFSTDT + 1`.",
+      "datasets": [],
+      "columns": [
+        "AGE",
+        "AGEGRP",
+        "ARM_DECODE",
+        "BRTHDTC",
+        "RECORDCREATEDT",
+        "RFSTDTC",
+        "SEX_DECODE",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 62,
+      "text": "**Deduplication**: where multiple records exist for one `USUBJID`,",
+      "datasets": [],
+      "columns": [
+        "AGE",
+        "AGEGRP",
+        "ARM_DECODE",
+        "BRTHDTC",
+        "RECORDCREATEDT",
+        "RFSTDTC",
+        "SEX_DECODE",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 67,
+      "text": "Convert dates as above.",
+      "datasets": [],
+      "columns": [
+        "AESEQ",
+        "AESTDTC",
+        "AETERM",
+        "MAX_AESEV",
+        "MILD",
+        "MODERATE",
+        "SEVERE"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 68,
+      "text": "Standardize severity to `MILD` / `MODERATE` / `SEVERE`. Accepted raw",
+      "datasets": [],
+      "columns": [
+        "AESEQ",
+        "AESTDTC",
+        "AETERM",
+        "MAX_AESEV",
+        "MILD",
+        "MODERATE",
+        "SEVERE"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 74,
+      "text": "Drop records where `AESTDTC` or `AETERM` is missing.",
+      "datasets": [],
+      "columns": [
+        "AESEQ",
+        "AESTDTC",
+        "AETERM",
+        "MAX_AESEV",
+        "MILD",
+        "MODERATE",
+        "SEVERE"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 75,
+      "text": "Assign `AESEQ` within subject, ordered by start date then term.",
+      "datasets": [],
+      "columns": [
+        "AESEQ",
+        "AESTDTC",
+        "AETERM",
+        "MAX_AESEV",
+        "MILD",
+        "MODERATE",
+        "SEVERE"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 76,
+      "text": "Derive `MAX_AESEV` per subject (worst severity observed).",
+      "datasets": [],
+      "columns": [
+        "AESEQ",
+        "AESTDTC",
+        "AETERM",
+        "MAX_AESEV",
+        "MILD",
+        "MODERATE",
+        "SEVERE"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.3 ADSL derivations",
+      "source_line": 80,
+      "text": "Left join `DM_CLEAN` to `SITE_LOOKUP` on site identifier.",
+      "datasets": [
+        "dm_clean",
+        "site_lookup"
+      ],
+      "columns": [
+        "DM_CLEAN",
+        "RFSTDT",
+        "SITE_LOOKUP"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.3 ADSL derivations",
+      "source_line": 81,
+      "text": "**Safety population (SAFFL)**: subject has `RFSTDT` populated.",
+      "datasets": [
+        "dm_clean",
+        "site_lookup"
+      ],
+      "columns": [
+        "DM_CLEAN",
+        "RFSTDT",
+        "SITE_LOOKUP"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.3 ADSL derivations",
+      "source_line": 82,
+      "text": "**ITT population (ITTFL)**: `SAFFL = 'Y'` and `ARM \u2260 'PLACEBO'`.",
+      "datasets": [
+        "dm_clean",
+        "site_lookup"
+      ],
+      "columns": [
+        "DM_CLEAN",
+        "RFSTDT",
+        "SITE_LOOKUP"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 86,
+      "text": "Inner join `AE_CLEAN` to `ADSL` on `USUBJID`.",
+      "datasets": [
+        "adsl",
+        "ae_clean"
+      ],
+      "columns": [
+        "ADSL",
+        "AE_CLEAN",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 87,
+      "text": "**Treatment-emergent flag (TRTEMFL)**: `'Y'` if AE start date is on",
+      "datasets": [
+        "adsl",
+        "ae_clean"
+      ],
+      "columns": [
+        "ADSL",
+        "AE_CLEAN",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 90,
+      "text": "**On-treatment flag (ONTRTFL)**: AE start date within",
+      "datasets": [
+        "adsl",
+        "ae_clean"
+      ],
+      "columns": [
+        "ADSL",
+        "AE_CLEAN",
+        "USUBJID"
+      ]
+    },
+    {
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 92,
+      "text": "Compute `ASTDY = AESTDT - RFSTDT + 1`.",
+      "datasets": [
+        "adsl",
+        "ae_clean"
+      ],
+      "columns": [
+        "ADSL",
+        "AE_CLEAN",
+        "USUBJID"
+      ]
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "functional_spec-\u00a76.1",
+      "tickers": [],
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.1 DM duplicates (resolved by dedup logic)",
+      "source_line": 109,
+      "text": "A 2023 CRF amendment caused some subjects to appear twice in the raw extract. The dedup step in \u00a74.1 handles this. ",
+      "datasets": [],
+      "columns": []
+    },
+    {
+      "id": "SP-184",
+      "tickers": [
+        "SP-184"
+      ],
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.2 Vendor B severity codes (deferred)",
+      "source_line": 113,
+      "text": "~5% of AE records arrive with `GRADE 1`/`GRADE 2`/`GRADE 3` style codes. These are NOT mapped in v1.3. Their `AESEV_STD` will be blank and they will appear in the \"blank severity\" row of `AE_SUMMARY`. Tracked as SP-184. Decision deferred to data review meeting.",
+      "datasets": [
+        "ae_summary"
+      ],
+      "columns": [
+        "AESEV_STD",
+        "AE_SUMMARY"
+      ]
+    },
+    {
+      "id": "SP-227",
+      "tickers": [
+        "SP-227"
+      ],
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.3 \"First dose\" vs \"randomization\" date for TRTEMFL",
+      "source_line": 119,
+      "text": "The TRTEMFL definition in \u00a74.4 says \"first dose date\". The current implementation uses the cohort-level latest randomization date as a proxy. The medical monitor accepted this for v1.3 but flagged it for review in v1.4 (SP-227).",
+      "datasets": [],
+      "columns": []
+    },
+    {
+      "id": "functional_spec-\u00a76.4",
+      "tickers": [],
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.4 Site lookup join",
+      "source_line": 125,
+      "text": "DM stores `SITEID` as character (`'01'`, `'02'`...). The SITE_LOOKUP extract delivers `SITE_ID` as numeric (1, 2...). The PROC SQL join relies on SAS implicit type conversion. Works in SAS, but flagged during code review as a portability concern.",
+      "datasets": [
+        "site_lookup"
+      ],
+      "columns": [
+        "SITEID",
+        "SITE_ID"
+      ]
+    }
+  ]
+}

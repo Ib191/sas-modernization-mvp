@@ -1,0 +1,62 @@
+{
+  "program": "formats",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\config\\formats.sas",
+  "blocks": [
+    {
+      "kind": "proc",
+      "proc_name": "format",
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [
+        {
+          "kind": "format_def",
+          "name": "$sexfmt",
+          "body": "'M' = 'Male'\n    'F' = 'Female'\n    'U' = 'Unknown'\n    other = 'Missing'",
+          "line": 2,
+          "raw": "value $sexfmt\n    'M' = 'Male'\n    'F' = 'Female'\n    'U' = 'Unknown'\n    other = 'Missing'"
+        },
+        {
+          "kind": "format_def",
+          "name": "$sevfmt",
+          "body": "'MILD'     = 'Mild'\n    'MODERATE' = 'Moderate'\n    'SEVERE'   = 'Severe'\n     \n    other      = 'Unknown'",
+          "line": 7,
+          "raw": "value $sevfmt\n    'MILD'     = 'Mild'\n    'MODERATE' = 'Moderate'\n    'SEVERE'   = 'Severe'\n     \n    other      = 'Unknown'"
+        },
+        {
+          "kind": "format_def",
+          "name": "sevrank",
+          "body": "1 = 'Mild'\n    2 = 'Moderate'\n    3 = 'Severe'",
+          "line": 13,
+          "raw": "value sevrank\n    1 = 'Mild'\n    2 = 'Moderate'\n    3 = 'Severe'"
+        },
+        {
+          "kind": "format_def",
+          "name": "agegrp",
+          "body": "low  - 17  = '< 18'\n    18   - 39  = '18-39'\n    40   - 64  = '40-64'\n    65   - high = '65+'",
+          "line": 17,
+          "raw": "value agegrp\n    low  - 17  = '< 18'\n    18   - 39  = '18-39'\n    40   - 64  = '40-64'\n    65   - high = '65+'"
+        },
+        {
+          "kind": "format_def",
+          "name": "$armfmt",
+          "body": "'PLACEBO'    = 'Placebo'\n    'DRUG_X_LOW' = 'Drug X 50mg'\n    'DRUG_X_HI'  = 'Drug X 100mg'",
+          "line": 22,
+          "raw": "value $armfmt\n    'PLACEBO'    = 'Placebo'\n    'DRUG_X_LOW' = 'Drug X 50mg'\n    'DRUG_X_HI'  = 'Drug X 100mg'"
+        },
+        {
+          "kind": "format_def",
+          "name": "$ynfmt",
+          "body": "'Y' = 'Yes'\n    'N' = 'No'\n    ' ' = 'Not recorded'\n    other = 'Unknown'",
+          "line": 26,
+          "raw": "value $ynfmt\n    'Y' = 'Yes'\n    'N' = 'No'\n    ' ' = 'Not recorded'\n    other = 'Unknown'"
+        }
+      ],
+      "line_start": 1,
+      "line_end": 31,
+      "raw_text_head": "proc format library=work"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": []
+}

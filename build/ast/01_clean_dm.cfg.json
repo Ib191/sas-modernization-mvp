@@ -1,0 +1,170 @@
+{
+  "program": "01_clean_dm",
+  "nodes": [
+    {
+      "id": "b0",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 2,
+      "line_end": 2,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b1",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 7,
+      "line_end": 7,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b2",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 8,
+      "line_end": 8,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b3",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 9,
+      "line_end": 9,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b4",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 10,
+      "line_end": 10,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b5",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 11,
+      "line_end": 11,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b6",
+      "kind": "data",
+      "label": "DATA work.dm_stage",
+      "line_start": 12,
+      "line_end": 25,
+      "inputs": [
+        "raw.dm"
+      ],
+      "outputs": [
+        "work.dm_stage"
+      ]
+    },
+    {
+      "id": "b7",
+      "kind": "proc",
+      "label": "PROC sort",
+      "line_start": 26,
+      "line_end": 28,
+      "inputs": [
+        "work.dm_stage"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "b8",
+      "kind": "data",
+      "label": "DATA work.dm_dedup",
+      "line_start": 29,
+      "line_end": 33,
+      "inputs": [
+        "work.dm_stage"
+      ],
+      "outputs": [
+        "work.dm_dedup"
+      ]
+    },
+    {
+      "id": "b9",
+      "kind": "data",
+      "label": "DATA adam.dm_clean",
+      "line_start": 34,
+      "line_end": 54,
+      "inputs": [
+        "work.dm_dedup"
+      ],
+      "outputs": [
+        "adam.dm_clean"
+      ]
+    },
+    {
+      "id": "b10",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 55,
+      "line_end": 55,
+      "inputs": [],
+      "outputs": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "b0",
+      "to": "b1",
+      "kind": "sequential"
+    },
+    {
+      "from": "b1",
+      "to": "b2",
+      "kind": "sequential"
+    },
+    {
+      "from": "b2",
+      "to": "b3",
+      "kind": "sequential"
+    },
+    {
+      "from": "b3",
+      "to": "b4",
+      "kind": "sequential"
+    },
+    {
+      "from": "b4",
+      "to": "b5",
+      "kind": "sequential"
+    },
+    {
+      "from": "b5",
+      "to": "b6",
+      "kind": "sequential"
+    },
+    {
+      "from": "b6",
+      "to": "b7",
+      "kind": "sequential"
+    },
+    {
+      "from": "b7",
+      "to": "b8",
+      "kind": "sequential"
+    },
+    {
+      "from": "b8",
+      "to": "b9",
+      "kind": "sequential"
+    },
+    {
+      "from": "b9",
+      "to": "b10",
+      "kind": "sequential"
+    }
+  ]
+}

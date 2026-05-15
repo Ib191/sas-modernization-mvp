@@ -1,0 +1,91 @@
+{
+  "program": "01_clean_dm",
+  "nodes": [
+    {
+      "id": "raw.dm",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.dm_stage",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.dm_stage.age_derived",
+      "kind": "Column",
+      "dataset": "work.dm_stage",
+      "name": "age_derived"
+    },
+    {
+      "id": "work.dm_stage.age",
+      "kind": "Column",
+      "dataset": "work.dm_stage",
+      "name": "age"
+    },
+    {
+      "id": "work.dm_stage.trtdurd",
+      "kind": "Column",
+      "dataset": "work.dm_stage",
+      "name": "trtdurd"
+    },
+    {
+      "id": "work.dm_dedup",
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.dm_clean",
+      "kind": "Dataset"
+    }
+  ],
+  "edges": [
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "work.dm_stage.age_derived",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "work.dm_stage.age",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "work.dm_stage.trtdurd",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "raw.dm",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "raw.dm",
+      "to": "work.dm_stage",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "work.dm_stage",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "work.dm_stage",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.dm_stage",
+      "to": "work.dm_dedup",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:01_clean_dm",
+      "to": "work.dm_dedup",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.dm_dedup",
+      "to": "adam.dm_clean",
+      "kind": "produces"
+    }
+  ]
+}

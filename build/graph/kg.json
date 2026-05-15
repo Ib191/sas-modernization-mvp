@@ -1,0 +1,2537 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "kind": "Dataset",
+      "library": "raw",
+      "name": "dm",
+      "producer": "(input)",
+      "source_csv": "input_data/dm.csv",
+      "id": "raw.dm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "USUBJID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CTX-001",
+        "CTX-002",
+        "CTX-003"
+      ],
+      "id": "raw.dm.usubjid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "AGE",
+      "dtype": "int",
+      "nullable": true,
+      "samples": [
+        "69",
+        "59",
+        "57"
+      ],
+      "id": "raw.dm.age"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "SEX",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "M",
+        "U",
+        "U"
+      ],
+      "id": "raw.dm.sex"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "RACE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "WHITE",
+        "WHITE",
+        "WHITE"
+      ],
+      "id": "raw.dm.race"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "ARM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "DRUG_X_HI",
+        "PLACEBO",
+        "PLACEBO"
+      ],
+      "id": "raw.dm.arm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "SITEID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "02",
+        "01",
+        "04"
+      ],
+      "id": "raw.dm.siteid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "BRTHDTC",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "1954-08-31",
+        "1964-06-13",
+        "1966-10-06"
+      ],
+      "id": "raw.dm.brthdtc"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "RFSTDTC",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-01-30",
+        "2024-01-17",
+        "2024-02-29"
+      ],
+      "id": "raw.dm.rfstdtc"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "RFENDTC",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-03-12",
+        "2024-02-15",
+        "2024-05-08"
+      ],
+      "id": "raw.dm.rfendtc"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.dm",
+      "name": "RECORDCREATEDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-02-04",
+        "2024-01-18",
+        "2024-03-01"
+      ],
+      "id": "raw.dm.recordcreatedt"
+    },
+    {
+      "kind": "Dataset",
+      "library": "raw",
+      "name": "ae",
+      "producer": "(input)",
+      "source_csv": "input_data/ae.csv",
+      "id": "raw.ae"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.ae",
+      "name": "USUBJID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CTX-001",
+        "CTX-001",
+        "CTX-003"
+      ],
+      "id": "raw.ae.usubjid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.ae",
+      "name": "AETERM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "FATIGUE",
+        "NAUSEA",
+        "ARTHRALGIA"
+      ],
+      "id": "raw.ae.aeterm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.ae",
+      "name": "AESEV",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "3",
+        "SEVERE",
+        "MILD"
+      ],
+      "id": "raw.ae.aesev"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.ae",
+      "name": "AESER",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "N",
+        "N",
+        "N"
+      ],
+      "id": "raw.ae.aeser"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.ae",
+      "name": "AESTDTC",
+      "dtype": "date",
+      "nullable": true,
+      "samples": [
+        "2024-03-03",
+        "2024-02-18",
+        "2024-05-07"
+      ],
+      "id": "raw.ae.aestdtc"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.ae",
+      "name": "AEENDTC",
+      "dtype": "date",
+      "nullable": true,
+      "samples": [
+        "2024-02-22",
+        "2024-04-25",
+        "2024-02-24"
+      ],
+      "id": "raw.ae.aeendtc"
+    },
+    {
+      "kind": "Dataset",
+      "library": "raw",
+      "name": "site_lookup",
+      "producer": "(input)",
+      "source_csv": "input_data/site_lookup.csv",
+      "id": "raw.site_lookup"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.site_lookup",
+      "name": "SITE_ID",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "1",
+        "2",
+        "3"
+      ],
+      "id": "raw.site_lookup.site_id"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.site_lookup",
+      "name": "SITE_NAME",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Boston Medical Ctr",
+        "Toronto General",
+        "Charite Berlin"
+      ],
+      "id": "raw.site_lookup.site_name"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.site_lookup",
+      "name": "SITE_COUNTRY",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "USA",
+        "CAN",
+        "DEU"
+      ],
+      "id": "raw.site_lookup.site_country"
+    },
+    {
+      "kind": "Column",
+      "dataset": "raw.site_lookup",
+      "name": "SITE_REGION",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "NA",
+        "NA",
+        "EU"
+      ],
+      "id": "raw.site_lookup.site_region"
+    },
+    {
+      "kind": "Dataset",
+      "library": "adam",
+      "name": "dm_clean",
+      "producer": "01_clean_dm",
+      "source_csv": "ground_truth/dm_clean.csv",
+      "id": "adam.dm_clean"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "USUBJID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CTX-001",
+        "CTX-002",
+        "CTX-003"
+      ],
+      "id": "adam.dm_clean.usubjid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "AGE",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "69",
+        "59",
+        "57"
+      ],
+      "id": "adam.dm_clean.age"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "AGE_DERIVED",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "69",
+        "59",
+        "57"
+      ],
+      "id": "adam.dm_clean.age_derived"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "AGEGRP",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "65+",
+        "40-64",
+        "40-64"
+      ],
+      "id": "adam.dm_clean.agegrp"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "SEX",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "M",
+        "U",
+        "U"
+      ],
+      "id": "adam.dm_clean.sex"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "SEX_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Male",
+        "Unknown",
+        "Unknown"
+      ],
+      "id": "adam.dm_clean.sex_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "RACE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "WHITE",
+        "WHITE",
+        "WHITE"
+      ],
+      "id": "adam.dm_clean.race"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "ARM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "DRUG_X_HI",
+        "PLACEBO",
+        "PLACEBO"
+      ],
+      "id": "adam.dm_clean.arm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "ARM_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Drug X 100mg",
+        "Placebo",
+        "Placebo"
+      ],
+      "id": "adam.dm_clean.arm_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "RFSTDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-01-30",
+        "2024-01-17",
+        "2024-02-29"
+      ],
+      "id": "adam.dm_clean.rfstdt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "RFENDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-03-12",
+        "2024-02-15",
+        "2024-05-08"
+      ],
+      "id": "adam.dm_clean.rfendt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "TRTDURD",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "43",
+        "30",
+        "70"
+      ],
+      "id": "adam.dm_clean.trtdurd"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.dm_clean",
+      "name": "SITEID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "02",
+        "01",
+        "04"
+      ],
+      "id": "adam.dm_clean.siteid"
+    },
+    {
+      "kind": "Dataset",
+      "library": "adam",
+      "name": "ae_clean",
+      "producer": "02_clean_ae",
+      "source_csv": "ground_truth/ae_clean.csv",
+      "id": "adam.ae_clean"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "USUBJID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CTX-001",
+        "CTX-001",
+        "CTX-003"
+      ],
+      "id": "adam.ae_clean.usubjid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AESEQ",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "1",
+        "2",
+        "1"
+      ],
+      "id": "adam.ae_clean.aeseq"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AETERM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "NAUSEA",
+        "FATIGUE",
+        "HEADACHE"
+      ],
+      "id": "adam.ae_clean.aeterm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AESTDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-02-18",
+        "2024-03-03",
+        "2024-02-28"
+      ],
+      "id": "adam.ae_clean.aestdt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AEENDT",
+      "dtype": "date",
+      "nullable": true,
+      "samples": [
+        "2024-02-22",
+        "2024-04-25",
+        "2024-02-28"
+      ],
+      "id": "adam.ae_clean.aeendt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AEDUR",
+      "dtype": "int",
+      "nullable": true,
+      "samples": [
+        "5",
+        "10",
+        "8"
+      ],
+      "id": "adam.ae_clean.aedur"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AESEV",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "SEVERE",
+        "3",
+        "MODERATE"
+      ],
+      "id": "adam.ae_clean.aesev"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AESEV_STD",
+      "dtype": "string",
+      "nullable": true,
+      "samples": [
+        "SEVERE",
+        "SEVERE",
+        "MODERATE"
+      ],
+      "id": "adam.ae_clean.aesev_std"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AESEVN",
+      "dtype": "int",
+      "nullable": true,
+      "samples": [
+        "3",
+        "3",
+        "2"
+      ],
+      "id": "adam.ae_clean.aesevn"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "AESER",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "N",
+        "N",
+        "N"
+      ],
+      "id": "adam.ae_clean.aeser"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "MAX_AESEV",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "SEVERE",
+        "SEVERE",
+        "MODERATE"
+      ],
+      "id": "adam.ae_clean.max_aesev"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_clean",
+      "name": "MAX_AESEVN",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "3",
+        "3",
+        "2"
+      ],
+      "id": "adam.ae_clean.max_aesevn"
+    },
+    {
+      "kind": "Dataset",
+      "library": "adam",
+      "name": "adsl",
+      "producer": "03_derive_adsl",
+      "source_csv": "ground_truth/adsl.csv",
+      "id": "adam.adsl"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "USUBJID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CTX-001",
+        "CTX-002",
+        "CTX-003"
+      ],
+      "id": "adam.adsl.usubjid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "AGE",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "69",
+        "59",
+        "57"
+      ],
+      "id": "adam.adsl.age"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "AGE_DERIVED",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "69",
+        "59",
+        "57"
+      ],
+      "id": "adam.adsl.age_derived"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "AGEGRP",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "65+",
+        "40-64",
+        "40-64"
+      ],
+      "id": "adam.adsl.agegrp"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SEX",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "M",
+        "U",
+        "U"
+      ],
+      "id": "adam.adsl.sex"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SEX_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Male",
+        "Unknown",
+        "Unknown"
+      ],
+      "id": "adam.adsl.sex_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "RACE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "WHITE",
+        "WHITE",
+        "WHITE"
+      ],
+      "id": "adam.adsl.race"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "ARM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "DRUG_X_HI",
+        "PLACEBO",
+        "PLACEBO"
+      ],
+      "id": "adam.adsl.arm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "ARM_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Drug X 100mg",
+        "Placebo",
+        "Placebo"
+      ],
+      "id": "adam.adsl.arm_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "RFSTDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-01-30",
+        "2024-01-17",
+        "2024-02-29"
+      ],
+      "id": "adam.adsl.rfstdt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "RFENDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-03-12",
+        "2024-02-15",
+        "2024-05-08"
+      ],
+      "id": "adam.adsl.rfendt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "TRTDURD",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "43",
+        "30",
+        "70"
+      ],
+      "id": "adam.adsl.trtdurd"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SITEID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "02",
+        "01",
+        "04"
+      ],
+      "id": "adam.adsl.siteid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SITE_NAME",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Toronto General",
+        "Boston Medical Ctr",
+        "Tokyo Univ Hosp"
+      ],
+      "id": "adam.adsl.site_name"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SITE_COUNTRY",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CAN",
+        "USA",
+        "JPN"
+      ],
+      "id": "adam.adsl.site_country"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SITE_REGION",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "NA",
+        "NA",
+        "APAC"
+      ],
+      "id": "adam.adsl.site_region"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "SAFFL",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Y",
+        "Y",
+        "Y"
+      ],
+      "id": "adam.adsl.saffl"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adsl",
+      "name": "ITTFL",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Y",
+        "N",
+        "N"
+      ],
+      "id": "adam.adsl.ittfl"
+    },
+    {
+      "kind": "Dataset",
+      "library": "adam",
+      "name": "adae",
+      "producer": "04_derive_adae",
+      "source_csv": "ground_truth/adae.csv",
+      "id": "adam.adae"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "USUBJID",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "CTX-001",
+        "CTX-001",
+        "CTX-003"
+      ],
+      "id": "adam.adae.usubjid"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AETERM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "NAUSEA",
+        "FATIGUE",
+        "HEADACHE"
+      ],
+      "id": "adam.adae.aeterm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AESTDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-02-18",
+        "2024-03-03",
+        "2024-02-28"
+      ],
+      "id": "adam.adae.aestdt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AEENDT",
+      "dtype": "date",
+      "nullable": true,
+      "samples": [
+        "2024-02-22",
+        "2024-04-25",
+        "2024-02-28"
+      ],
+      "id": "adam.adae.aeendt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AEDUR",
+      "dtype": "int",
+      "nullable": true,
+      "samples": [
+        "5",
+        "10",
+        "8"
+      ],
+      "id": "adam.adae.aedur"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AESEV",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "SEVERE",
+        "3",
+        "MODERATE"
+      ],
+      "id": "adam.adae.aesev"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AESEV_STD",
+      "dtype": "string",
+      "nullable": true,
+      "samples": [
+        "SEVERE",
+        "SEVERE",
+        "MODERATE"
+      ],
+      "id": "adam.adae.aesev_std"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AESEVN",
+      "dtype": "int",
+      "nullable": true,
+      "samples": [
+        "3",
+        "3",
+        "2"
+      ],
+      "id": "adam.adae.aesevn"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AESER",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "N",
+        "N",
+        "N"
+      ],
+      "id": "adam.adae.aeser"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AESEQ",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "1",
+        "2",
+        "1"
+      ],
+      "id": "adam.adae.aeseq"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "MAX_AESEV",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "SEVERE",
+        "SEVERE",
+        "MODERATE"
+      ],
+      "id": "adam.adae.max_aesev"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "MAX_AESEVN",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "3",
+        "3",
+        "2"
+      ],
+      "id": "adam.adae.max_aesevn"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AGE",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "69",
+        "69",
+        "57"
+      ],
+      "id": "adam.adae.age"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "AGEGRP",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "65+",
+        "65+",
+        "40-64"
+      ],
+      "id": "adam.adae.agegrp"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "SEX",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "M",
+        "M",
+        "U"
+      ],
+      "id": "adam.adae.sex"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "ARM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "DRUG_X_HI",
+        "DRUG_X_HI",
+        "PLACEBO"
+      ],
+      "id": "adam.adae.arm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "ARM_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Drug X 100mg",
+        "Drug X 100mg",
+        "Placebo"
+      ],
+      "id": "adam.adae.arm_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "RFSTDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-01-30",
+        "2024-01-30",
+        "2024-02-29"
+      ],
+      "id": "adam.adae.rfstdt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "RFENDT",
+      "dtype": "date",
+      "nullable": false,
+      "samples": [
+        "2024-03-12",
+        "2024-03-12",
+        "2024-05-08"
+      ],
+      "id": "adam.adae.rfendt"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "SAFFL",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Y",
+        "Y",
+        "Y"
+      ],
+      "id": "adam.adae.saffl"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "ITTFL",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Y",
+        "Y",
+        "N"
+      ],
+      "id": "adam.adae.ittfl"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "TRTEMFL",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "N",
+        "N",
+        "N"
+      ],
+      "id": "adam.adae.trtemfl"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "ONTRTFL",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Y",
+        "Y",
+        "N"
+      ],
+      "id": "adam.adae.ontrtfl"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.adae",
+      "name": "ASTDY",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "20",
+        "34",
+        "0"
+      ],
+      "id": "adam.adae.astdy"
+    },
+    {
+      "kind": "Dataset",
+      "library": "adam",
+      "name": "ae_summary",
+      "producer": "05_summary_safety",
+      "source_csv": "ground_truth/ae_summary.csv",
+      "id": "adam.ae_summary"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_summary",
+      "name": "ARM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "DRUG_X_HI",
+        "DRUG_X_LOW",
+        "DRUG_X_LOW"
+      ],
+      "id": "adam.ae_summary.arm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_summary",
+      "name": "ARM_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Drug X 100mg",
+        "Drug X 50mg",
+        "Drug X 50mg"
+      ],
+      "id": "adam.ae_summary.arm_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_summary",
+      "name": "SEVERITY",
+      "dtype": "string",
+      "nullable": true,
+      "samples": [
+        "MILD",
+        "MILD",
+        "MODERATE"
+      ],
+      "id": "adam.ae_summary.severity"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_summary",
+      "name": "N_EVENTS",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "1",
+        "4",
+        "2"
+      ],
+      "id": "adam.ae_summary.n_events"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_summary",
+      "name": "N_SERIOUS",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "0",
+        "0",
+        "1"
+      ],
+      "id": "adam.ae_summary.n_serious"
+    },
+    {
+      "kind": "Dataset",
+      "library": "adam",
+      "name": "ae_incidence",
+      "producer": "05_summary_safety",
+      "source_csv": "ground_truth/ae_incidence.csv",
+      "id": "adam.ae_incidence"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "ARM",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "DRUG_X_HI",
+        "DRUG_X_LOW",
+        "DRUG_X_LOW"
+      ],
+      "id": "adam.ae_incidence.arm"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "ARM_DECODE",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "Drug X 100mg",
+        "Drug X 50mg",
+        "Drug X 50mg"
+      ],
+      "id": "adam.ae_incidence.arm_decode"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "WORST_SEVERITY",
+      "dtype": "string",
+      "nullable": false,
+      "samples": [
+        "MODERATE",
+        "MILD",
+        "MODERATE"
+      ],
+      "id": "adam.ae_incidence.worst_severity"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "WORST_SEVERITY_RANK",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "2",
+        "1",
+        "2"
+      ],
+      "id": "adam.ae_incidence.worst_severity_rank"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "N_SUBJ_WITH_AE",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "1",
+        "1",
+        "2"
+      ],
+      "id": "adam.ae_incidence.n_subj_with_ae"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "N_SUBJ_TOTAL",
+      "dtype": "int",
+      "nullable": false,
+      "samples": [
+        "3",
+        "9",
+        "9"
+      ],
+      "id": "adam.ae_incidence.n_subj_total"
+    },
+    {
+      "kind": "Column",
+      "dataset": "adam.ae_incidence",
+      "name": "INCIDENCE_RATE",
+      "dtype": "float",
+      "nullable": false,
+      "samples": [
+        "0.3333",
+        "0.1111",
+        "0.2222"
+      ],
+      "id": "adam.ae_incidence.incidence_rate"
+    },
+    {
+      "kind": "Proc",
+      "program": "01_clean_dm",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.dm_stage",
+      "line_start": 12,
+      "line_end": 25,
+      "id": "01_clean_dm::b6"
+    },
+    {
+      "kind": "Proc",
+      "program": "01_clean_dm",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 26,
+      "line_end": 28,
+      "id": "01_clean_dm::b7"
+    },
+    {
+      "kind": "Proc",
+      "program": "01_clean_dm",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.dm_dedup",
+      "line_start": 29,
+      "line_end": 33,
+      "id": "01_clean_dm::b8"
+    },
+    {
+      "kind": "Proc",
+      "program": "01_clean_dm",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA adam.dm_clean",
+      "line_start": 34,
+      "line_end": 54,
+      "id": "01_clean_dm::b9"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.ae_stage",
+      "line_start": 12,
+      "line_end": 30,
+      "id": "02_clean_ae::b6"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 31,
+      "line_end": 33,
+      "id": "02_clean_ae::b7"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.ae_seq",
+      "line_start": 34,
+      "line_end": 40,
+      "id": "02_clean_ae::b8"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 41,
+      "line_end": 43,
+      "id": "02_clean_ae::b9"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.ae_max_sev",
+      "line_start": 44,
+      "line_end": 50,
+      "id": "02_clean_ae::b10"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 51,
+      "line_end": 53,
+      "id": "02_clean_ae::b11"
+    },
+    {
+      "kind": "Proc",
+      "program": "02_clean_ae",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA adam.ae_clean",
+      "line_start": 54,
+      "line_end": 72,
+      "id": "02_clean_ae::b12"
+    },
+    {
+      "kind": "Proc",
+      "program": "03_derive_adsl",
+      "proc_kind": "proc",
+      "proc_name": "sql",
+      "label": "PROC sql",
+      "line_start": 12,
+      "line_end": 22,
+      "id": "03_derive_adsl::b6"
+    },
+    {
+      "kind": "Proc",
+      "program": "03_derive_adsl",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.adsl_pre",
+      "line_start": 23,
+      "line_end": 30,
+      "id": "03_derive_adsl::b7"
+    },
+    {
+      "kind": "Proc",
+      "program": "03_derive_adsl",
+      "proc_kind": "proc",
+      "proc_name": "sql",
+      "label": "PROC sql",
+      "line_start": 31,
+      "line_end": 35,
+      "id": "03_derive_adsl::b8"
+    },
+    {
+      "kind": "Proc",
+      "program": "03_derive_adsl",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA adam.adsl",
+      "line_start": 37,
+      "line_end": 45,
+      "id": "03_derive_adsl::b10"
+    },
+    {
+      "kind": "Proc",
+      "program": "04_derive_adae",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 15,
+      "line_end": 17,
+      "id": "04_derive_adae::b9"
+    },
+    {
+      "kind": "Proc",
+      "program": "04_derive_adae",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 18,
+      "line_end": 21,
+      "id": "04_derive_adae::b10"
+    },
+    {
+      "kind": "Proc",
+      "program": "04_derive_adae",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA work.adae_pre",
+      "line_start": 22,
+      "line_end": 36,
+      "id": "04_derive_adae::b11"
+    },
+    {
+      "kind": "Proc",
+      "program": "04_derive_adae",
+      "proc_kind": "data",
+      "proc_name": null,
+      "label": "DATA adam.adae",
+      "line_start": 37,
+      "line_end": 43,
+      "id": "04_derive_adae::b12"
+    },
+    {
+      "kind": "Proc",
+      "program": "05_summary_safety",
+      "proc_kind": "proc",
+      "proc_name": "sql",
+      "label": "PROC sql",
+      "line_start": 12,
+      "line_end": 18,
+      "id": "05_summary_safety::b6"
+    },
+    {
+      "kind": "Proc",
+      "program": "05_summary_safety",
+      "proc_kind": "proc",
+      "proc_name": "sql",
+      "label": "PROC sql",
+      "line_start": 19,
+      "line_end": 25,
+      "id": "05_summary_safety::b7"
+    },
+    {
+      "kind": "Proc",
+      "program": "05_summary_safety",
+      "proc_kind": "proc",
+      "proc_name": "sort",
+      "label": "PROC sort",
+      "line_start": 26,
+      "line_end": 28,
+      "id": "05_summary_safety::b8"
+    },
+    {
+      "kind": "Proc",
+      "program": "05_summary_safety",
+      "proc_kind": "proc",
+      "proc_name": "summary",
+      "label": "PROC summary",
+      "line_start": 29,
+      "line_end": 33,
+      "id": "05_summary_safety::b9"
+    },
+    {
+      "kind": "Proc",
+      "program": "05_summary_safety",
+      "proc_kind": "proc",
+      "proc_name": "sql",
+      "label": "PROC sql",
+      "line_start": 34,
+      "line_end": 48,
+      "id": "05_summary_safety::b10"
+    },
+    {
+      "kind": "Proc",
+      "program": "05_summary_safety",
+      "proc_kind": "proc",
+      "proc_name": "sql",
+      "label": "PROC sql",
+      "line_start": 49,
+      "line_end": 61,
+      "id": "05_summary_safety::b11"
+    },
+    {
+      "kind": "Macro",
+      "name": "iso_to_sasdate",
+      "params": [
+        "var"
+      ],
+      "reads_globals": [],
+      "writes_globals": [],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 5,
+      "id": "macro::iso_to_sasdate"
+    },
+    {
+      "kind": "Macro",
+      "name": "calc_age",
+      "params": [
+        "birth",
+        "ref"
+      ],
+      "reads_globals": [],
+      "writes_globals": [],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 10,
+      "id": "macro::calc_age"
+    },
+    {
+      "kind": "Macro",
+      "name": "is_treatment_emergent",
+      "params": [
+        "ae_start"
+      ],
+      "reads_globals": [
+        "TRT_START_DT"
+      ],
+      "writes_globals": [],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 15,
+      "id": "macro::is_treatment_emergent"
+    },
+    {
+      "kind": "Macro",
+      "name": "sev_to_rank",
+      "params": [
+        "sev"
+      ],
+      "reads_globals": [],
+      "writes_globals": [],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 20,
+      "id": "macro::sev_to_rank"
+    },
+    {
+      "kind": "Macro",
+      "name": "safe_div",
+      "params": [
+        "num",
+        "den"
+      ],
+      "reads_globals": [],
+      "writes_globals": [],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 30,
+      "id": "macro::safe_div"
+    },
+    {
+      "kind": "Program",
+      "name": "01_clean_dm",
+      "id": "PROGRAM:01_clean_dm"
+    },
+    {
+      "kind": "Program",
+      "name": "02_clean_ae",
+      "id": "PROGRAM:02_clean_ae"
+    },
+    {
+      "kind": "Program",
+      "name": "03_derive_adsl",
+      "id": "PROGRAM:03_derive_adsl"
+    },
+    {
+      "kind": "Program",
+      "name": "04_derive_adae",
+      "id": "PROGRAM:04_derive_adae"
+    },
+    {
+      "kind": "Program",
+      "name": "05_summary_safety",
+      "id": "PROGRAM:05_summary_safety"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Convert all ISO date strings to SAS dates.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 56,
+      "id": "rule::0"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Where `AGE` is missing, derive from `BRTHDTC` and `RFSTDTC` using",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 57,
+      "id": "rule::1"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Apply formats from `formats.sas` to derive `SEX_DECODE`, `ARM_DECODE`,",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 59,
+      "id": "rule::2"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Compute `TRTDURD = RFENDT - RFSTDT + 1`.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 61,
+      "id": "rule::3"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "**Deduplication**: where multiple records exist for one `USUBJID`,",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.1 Demographics cleaning (`DM_CLEAN`)",
+      "source_line": 62,
+      "id": "rule::4"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Convert dates as above.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 67,
+      "id": "rule::5"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Standardize severity to `MILD` / `MODERATE` / `SEVERE`. Accepted raw",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 68,
+      "id": "rule::6"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Drop records where `AESTDTC` or `AETERM` is missing.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 74,
+      "id": "rule::7"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Assign `AESEQ` within subject, ordered by start date then term.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 75,
+      "id": "rule::8"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Derive `MAX_AESEV` per subject (worst severity observed).",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.2 AE cleaning (`AE_CLEAN`)",
+      "source_line": 76,
+      "id": "rule::9"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Left join `DM_CLEAN` to `SITE_LOOKUP` on site identifier.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.3 ADSL derivations",
+      "source_line": 80,
+      "id": "rule::10"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "**Safety population (SAFFL)**: subject has `RFSTDT` populated.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.3 ADSL derivations",
+      "source_line": 81,
+      "id": "rule::11"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "**ITT population (ITTFL)**: `SAFFL = 'Y'` and `ARM \u2260 'PLACEBO'`.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.3 ADSL derivations",
+      "source_line": 82,
+      "id": "rule::12"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Inner join `AE_CLEAN` to `ADSL` on `USUBJID`.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 86,
+      "id": "rule::13"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "**Treatment-emergent flag (TRTEMFL)**: `'Y'` if AE start date is on",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 87,
+      "id": "rule::14"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "**On-treatment flag (ONTRTFL)**: AE start date within",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 90,
+      "id": "rule::15"
+    },
+    {
+      "kind": "BusinessRule",
+      "text": "Compute `ASTDY = AESTDT - RFSTDT + 1`.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "4.4 ADAE derivations",
+      "source_line": 92,
+      "id": "rule::16"
+    },
+    {
+      "kind": "OpenIssue",
+      "id": "issue::functional_spec-\u00a76.1",
+      "tickers": [],
+      "text": "A 2023 CRF amendment caused some subjects to appear twice in the raw extract. The dedup step in \u00a74.1 handles this. ",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.1 DM duplicates (resolved by dedup logic)",
+      "source_line": 109
+    },
+    {
+      "kind": "OpenIssue",
+      "id": "issue::SP-184",
+      "tickers": [
+        "SP-184"
+      ],
+      "text": "~5% of AE records arrive with `GRADE 1`/`GRADE 2`/`GRADE 3` style codes. These are NOT mapped in v1.3. Their `AESEV_STD` will be blank and they will appear in the \"blank severity\" row of `AE_SUMMARY`. Tracked as SP-184. Decision deferred to data review meeting.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.2 Vendor B severity codes (deferred)",
+      "source_line": 113
+    },
+    {
+      "kind": "OpenIssue",
+      "id": "issue::SP-227",
+      "tickers": [
+        "SP-227"
+      ],
+      "text": "The TRTEMFL definition in \u00a74.4 says \"first dose date\". The current implementation uses the cohort-level latest randomization date as a proxy. The medical monitor accepted this for v1.3 but flagged it for review in v1.4 (SP-227).",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.3 \"First dose\" vs \"randomization\" date for TRTEMFL",
+      "source_line": 119
+    },
+    {
+      "kind": "OpenIssue",
+      "id": "issue::functional_spec-\u00a76.4",
+      "tickers": [],
+      "text": "DM stores `SITEID` as character (`'01'`, `'02'`...). The SITE_LOOKUP extract delivers `SITE_ID` as numeric (1, 2...). The PROC SQL join relies on SAS implicit type conversion. Works in SAS, but flagged during code review as a portability concern.",
+      "source_file": "sas_codebase/docs/functional_spec.md",
+      "source_section": "6.4 Site lookup join",
+      "source_line": 125
+    },
+    {
+      "kind": "Constraint",
+      "text": "USUBJID is unique in DM_CLEAN/ADSL",
+      "constraint_kind": "primary_key",
+      "id": "constraint::0"
+    },
+    {
+      "kind": "Constraint",
+      "text": "AESTDT must not be missing in AE_CLEAN",
+      "constraint_kind": "not_null",
+      "id": "constraint::1"
+    },
+    {
+      "kind": "Constraint",
+      "text": "AETERM must not be missing in AE_CLEAN",
+      "constraint_kind": "not_null",
+      "id": "constraint::2"
+    },
+    {
+      "kind": "Constraint",
+      "text": "SAFFL is 'Y' or 'N'",
+      "constraint_kind": "domain",
+      "id": "constraint::3"
+    },
+    {
+      "kind": "Constraint",
+      "text": "ITTFL is 'Y' or 'N'",
+      "constraint_kind": "domain",
+      "id": "constraint::4"
+    },
+    {
+      "kind": "Constraint",
+      "text": "TRTEMFL is 'Y' or 'N'",
+      "constraint_kind": "domain",
+      "id": "constraint::5"
+    },
+    {
+      "kind": "Constraint",
+      "text": "ONTRTFL is 'Y' or 'N'",
+      "constraint_kind": "domain",
+      "id": "constraint::6"
+    },
+    {
+      "kind": "Constraint",
+      "text": "AESEV_STD \u2208 {MILD, MODERATE, SEVERE, blank}",
+      "constraint_kind": "domain",
+      "id": "constraint::7"
+    },
+    {
+      "kind": "Constraint",
+      "text": "AESEVN \u2208 {1, 2, 3, missing}",
+      "constraint_kind": "domain",
+      "id": "constraint::8"
+    }
+  ],
+  "edges": [
+    {
+      "kind": "contributes_to",
+      "via_program": "01_clean_dm",
+      "source": "raw.dm",
+      "target": "adam.dm_clean",
+      "key": "contributes_to:raw.dm->adam.dm_clean:01_clean_dm"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "raw.dm.siteid",
+      "target": "issue::functional_spec-\u00a76.4",
+      "key": "flagged_by:raw.dm.siteid->issue::functional_spec-\u00a76.4"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "02_clean_ae",
+      "source": "raw.ae",
+      "target": "adam.ae_clean",
+      "key": "contributes_to:raw.ae->adam.ae_clean:02_clean_ae"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "raw.site_lookup",
+      "target": "issue::functional_spec-\u00a76.4",
+      "key": "flagged_by:raw.site_lookup->issue::functional_spec-\u00a76.4"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "03_derive_adsl",
+      "source": "raw.site_lookup",
+      "target": "adam.adsl",
+      "key": "contributes_to:raw.site_lookup->adam.adsl:03_derive_adsl"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "raw.site_lookup.site_id",
+      "target": "issue::functional_spec-\u00a76.4",
+      "key": "flagged_by:raw.site_lookup.site_id->issue::functional_spec-\u00a76.4"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "03_derive_adsl",
+      "source": "adam.dm_clean",
+      "target": "adam.adsl",
+      "key": "contributes_to:adam.dm_clean->adam.adsl:03_derive_adsl"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "adam.dm_clean.siteid",
+      "target": "issue::functional_spec-\u00a76.4",
+      "key": "flagged_by:adam.dm_clean.siteid->issue::functional_spec-\u00a76.4"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "04_derive_adae",
+      "source": "adam.ae_clean",
+      "target": "adam.adae",
+      "key": "contributes_to:adam.ae_clean->adam.adae:04_derive_adae"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "adam.ae_clean.aesev_std",
+      "target": "issue::SP-184",
+      "key": "flagged_by:adam.ae_clean.aesev_std->issue::SP-184"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "04_derive_adae",
+      "source": "adam.adsl",
+      "target": "adam.adae",
+      "key": "contributes_to:adam.adsl->adam.adae:04_derive_adae"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "05_summary_safety",
+      "source": "adam.adsl",
+      "target": "adam.ae_incidence",
+      "key": "contributes_to:adam.adsl->adam.ae_incidence:05_summary_safety"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "05_summary_safety",
+      "source": "adam.adsl",
+      "target": "adam.ae_summary",
+      "key": "contributes_to:adam.adsl->adam.ae_summary:05_summary_safety"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "adam.adsl.siteid",
+      "target": "issue::functional_spec-\u00a76.4",
+      "key": "flagged_by:adam.adsl.siteid->issue::functional_spec-\u00a76.4"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "05_summary_safety",
+      "source": "adam.adae",
+      "target": "adam.ae_incidence",
+      "key": "contributes_to:adam.adae->adam.ae_incidence:05_summary_safety"
+    },
+    {
+      "kind": "contributes_to",
+      "via_program": "05_summary_safety",
+      "source": "adam.adae",
+      "target": "adam.ae_summary",
+      "key": "contributes_to:adam.adae->adam.ae_summary:05_summary_safety"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "adam.adae.aesev_std",
+      "target": "issue::SP-184",
+      "key": "flagged_by:adam.adae.aesev_std->issue::SP-184"
+    },
+    {
+      "kind": "flagged_by",
+      "source": "adam.ae_summary",
+      "target": "issue::SP-184",
+      "key": "flagged_by:adam.ae_summary->issue::SP-184"
+    },
+    {
+      "kind": "reads",
+      "source": "01_clean_dm::b6",
+      "target": "raw.dm",
+      "key": "reads:01_clean_dm::b6->raw.dm"
+    },
+    {
+      "kind": "writes",
+      "line": 18,
+      "source": "01_clean_dm::b6",
+      "target": "adam.dm_clean.age_derived",
+      "key": "writes_col:01_clean_dm::b6->adam.dm_clean.age_derived:18"
+    },
+    {
+      "kind": "writes",
+      "line": 22,
+      "source": "01_clean_dm::b6",
+      "target": "adam.dm_clean.age",
+      "key": "writes_col:01_clean_dm::b6->adam.dm_clean.age:22"
+    },
+    {
+      "kind": "writes",
+      "line": 23,
+      "source": "01_clean_dm::b6",
+      "target": "adam.dm_clean.trtdurd",
+      "key": "writes_col:01_clean_dm::b6->adam.dm_clean.trtdurd:23"
+    },
+    {
+      "kind": "writes",
+      "source": "01_clean_dm::b9",
+      "target": "adam.dm_clean",
+      "key": "writes:01_clean_dm::b9->adam.dm_clean"
+    },
+    {
+      "kind": "reads",
+      "source": "02_clean_ae::b6",
+      "target": "raw.ae",
+      "key": "reads:02_clean_ae::b6->raw.ae"
+    },
+    {
+      "kind": "writes",
+      "line": 18,
+      "source": "02_clean_ae::b6",
+      "target": "adam.ae_clean.aesev_std",
+      "key": "writes_col:02_clean_ae::b6->adam.ae_clean.aesev_std:18"
+    },
+    {
+      "kind": "writes",
+      "line": 29,
+      "source": "02_clean_ae::b6",
+      "target": "adam.ae_clean.aedur",
+      "key": "writes_col:02_clean_ae::b6->adam.ae_clean.aedur:29"
+    },
+    {
+      "kind": "writes",
+      "line": 38,
+      "source": "02_clean_ae::b8",
+      "target": "adam.ae_clean.aeseq",
+      "key": "writes_col:02_clean_ae::b8->adam.ae_clean.aeseq:38"
+    },
+    {
+      "kind": "writes",
+      "source": "02_clean_ae::b12",
+      "target": "adam.ae_clean",
+      "key": "writes:02_clean_ae::b12->adam.ae_clean"
+    },
+    {
+      "kind": "reads",
+      "source": "03_derive_adsl::b6",
+      "target": "adam.dm_clean",
+      "key": "reads:03_derive_adsl::b6->adam.dm_clean"
+    },
+    {
+      "kind": "reads",
+      "source": "03_derive_adsl::b6",
+      "target": "raw.site_lookup",
+      "key": "reads:03_derive_adsl::b6->raw.site_lookup"
+    },
+    {
+      "kind": "writes",
+      "line": 26,
+      "source": "03_derive_adsl::b7",
+      "target": "adam.adsl.saffl",
+      "key": "writes_col:03_derive_adsl::b7->adam.adsl.saffl:26"
+    },
+    {
+      "kind": "writes",
+      "line": 28,
+      "source": "03_derive_adsl::b7",
+      "target": "adam.adsl.ittfl",
+      "key": "writes_col:03_derive_adsl::b7->adam.adsl.ittfl:28"
+    },
+    {
+      "kind": "writes",
+      "source": "03_derive_adsl::b10",
+      "target": "adam.adsl",
+      "key": "writes:03_derive_adsl::b10->adam.adsl"
+    },
+    {
+      "kind": "reads",
+      "source": "04_derive_adae::b9",
+      "target": "adam.ae_clean",
+      "key": "reads:04_derive_adae::b9->adam.ae_clean"
+    },
+    {
+      "kind": "reads",
+      "source": "04_derive_adae::b10",
+      "target": "adam.adsl",
+      "key": "reads:04_derive_adae::b10->adam.adsl"
+    },
+    {
+      "kind": "writes",
+      "line": 28,
+      "source": "04_derive_adae::b11",
+      "target": "adam.adae.trtemfl",
+      "key": "writes_col:04_derive_adae::b11->adam.adae.trtemfl:28"
+    },
+    {
+      "kind": "writes",
+      "line": 31,
+      "source": "04_derive_adae::b11",
+      "target": "adam.adae.ontrtfl",
+      "key": "writes_col:04_derive_adae::b11->adam.adae.ontrtfl:31"
+    },
+    {
+      "kind": "writes",
+      "line": 34,
+      "source": "04_derive_adae::b11",
+      "target": "adam.adae.astdy",
+      "key": "writes_col:04_derive_adae::b11->adam.adae.astdy:34"
+    },
+    {
+      "kind": "writes",
+      "source": "04_derive_adae::b12",
+      "target": "adam.adae",
+      "key": "writes:04_derive_adae::b12->adam.adae"
+    },
+    {
+      "kind": "reads",
+      "source": "05_summary_safety::b6",
+      "target": "adam.adsl",
+      "key": "reads:05_summary_safety::b6->adam.adsl"
+    },
+    {
+      "kind": "reads",
+      "source": "05_summary_safety::b7",
+      "target": "adam.adae",
+      "key": "reads:05_summary_safety::b7->adam.adae"
+    },
+    {
+      "kind": "writes",
+      "source": "05_summary_safety::b10",
+      "target": "adam.ae_incidence",
+      "key": "writes:05_summary_safety::b10->adam.ae_incidence"
+    },
+    {
+      "kind": "writes",
+      "line": 35,
+      "source": "05_summary_safety::b10",
+      "target": "adam.ae_incidence.worst_severity",
+      "key": "writes_col:05_summary_safety::b10->adam.ae_incidence.worst_severity:sql"
+    },
+    {
+      "kind": "writes",
+      "line": 35,
+      "source": "05_summary_safety::b10",
+      "target": "adam.ae_incidence.worst_severity_rank",
+      "key": "writes_col:05_summary_safety::b10->adam.ae_incidence.worst_severity_rank:sql"
+    },
+    {
+      "kind": "writes",
+      "line": 35,
+      "source": "05_summary_safety::b10",
+      "target": "adam.ae_incidence.n_subj_total",
+      "key": "writes_col:05_summary_safety::b10->adam.ae_incidence.n_subj_total:sql"
+    },
+    {
+      "kind": "writes",
+      "line": 35,
+      "source": "05_summary_safety::b10",
+      "target": "adam.ae_incidence.incidence_rate",
+      "key": "writes_col:05_summary_safety::b10->adam.ae_incidence.incidence_rate:sql"
+    },
+    {
+      "kind": "reads",
+      "source": "05_summary_safety::b11",
+      "target": "adam.adae",
+      "key": "reads:05_summary_safety::b11->adam.adae"
+    },
+    {
+      "kind": "writes",
+      "source": "05_summary_safety::b11",
+      "target": "adam.ae_summary",
+      "key": "writes:05_summary_safety::b11->adam.ae_summary"
+    },
+    {
+      "kind": "writes",
+      "line": 50,
+      "source": "05_summary_safety::b11",
+      "target": "adam.ae_summary.severity",
+      "key": "writes_col:05_summary_safety::b11->adam.ae_summary.severity:sql"
+    },
+    {
+      "kind": "writes",
+      "line": 50,
+      "source": "05_summary_safety::b11",
+      "target": "adam.ae_summary.n_events",
+      "key": "writes_col:05_summary_safety::b11->adam.ae_summary.n_events:sql"
+    },
+    {
+      "kind": "writes",
+      "line": 50,
+      "source": "05_summary_safety::b11",
+      "target": "adam.ae_summary.n_serious",
+      "key": "writes_col:05_summary_safety::b11->adam.ae_summary.n_serious:sql"
+    },
+    {
+      "kind": "calls",
+      "line": 10,
+      "source": "PROGRAM:01_clean_dm",
+      "target": "macro::iso_to_sasdate",
+      "key": "calls:01_clean_dm->iso_to_sasdate:10"
+    },
+    {
+      "kind": "calls",
+      "line": 11,
+      "source": "PROGRAM:01_clean_dm",
+      "target": "macro::iso_to_sasdate",
+      "key": "calls:01_clean_dm->iso_to_sasdate:11"
+    },
+    {
+      "kind": "calls",
+      "line": 12,
+      "source": "PROGRAM:01_clean_dm",
+      "target": "macro::iso_to_sasdate",
+      "key": "calls:01_clean_dm->iso_to_sasdate:12"
+    },
+    {
+      "kind": "calls",
+      "line": 17,
+      "source": "PROGRAM:01_clean_dm",
+      "target": "macro::calc_age",
+      "key": "calls:01_clean_dm->calc_age:17"
+    },
+    {
+      "kind": "calls",
+      "line": 9,
+      "source": "PROGRAM:02_clean_ae",
+      "target": "macro::iso_to_sasdate",
+      "key": "calls:02_clean_ae->iso_to_sasdate:9"
+    },
+    {
+      "kind": "calls",
+      "line": 10,
+      "source": "PROGRAM:02_clean_ae",
+      "target": "macro::iso_to_sasdate",
+      "key": "calls:02_clean_ae->iso_to_sasdate:10"
+    },
+    {
+      "kind": "calls",
+      "line": 22,
+      "source": "PROGRAM:02_clean_ae",
+      "target": "macro::sev_to_rank",
+      "key": "calls:02_clean_ae->sev_to_rank:22"
+    },
+    {
+      "kind": "depends_on",
+      "via_dataset": "adam.dm_clean",
+      "source": "PROGRAM:03_derive_adsl",
+      "target": "PROGRAM:01_clean_dm",
+      "key": "depends_on:03_derive_adsl->01_clean_dm:adam.dm_clean"
+    },
+    {
+      "kind": "calls",
+      "line": 28,
+      "source": "PROGRAM:04_derive_adae",
+      "target": "macro::is_treatment_emergent",
+      "key": "calls:04_derive_adae->is_treatment_emergent:28"
+    },
+    {
+      "kind": "depends_on",
+      "via_dataset": "adam.ae_clean",
+      "source": "PROGRAM:04_derive_adae",
+      "target": "PROGRAM:02_clean_ae",
+      "key": "depends_on:04_derive_adae->02_clean_ae:adam.ae_clean"
+    },
+    {
+      "kind": "depends_on",
+      "via_dataset": "adam.adsl",
+      "source": "PROGRAM:04_derive_adae",
+      "target": "PROGRAM:03_derive_adsl",
+      "key": "depends_on:04_derive_adae->03_derive_adsl:adam.adsl"
+    },
+    {
+      "kind": "calls",
+      "line": 35,
+      "source": "PROGRAM:05_summary_safety",
+      "target": "macro::safe_div",
+      "key": "calls:05_summary_safety->safe_div:35"
+    },
+    {
+      "kind": "depends_on",
+      "via_dataset": "adam.adsl",
+      "source": "PROGRAM:05_summary_safety",
+      "target": "PROGRAM:03_derive_adsl",
+      "key": "depends_on:05_summary_safety->03_derive_adsl:adam.adsl"
+    },
+    {
+      "kind": "depends_on",
+      "via_dataset": "adam.adae",
+      "source": "PROGRAM:05_summary_safety",
+      "target": "PROGRAM:04_derive_adae",
+      "key": "depends_on:05_summary_safety->04_derive_adae:adam.adae"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::10",
+      "target": "adam.dm_clean",
+      "key": "applies_to:rule::10->adam.dm_clean"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::10",
+      "target": "raw.site_lookup",
+      "key": "applies_to:rule::10->raw.site_lookup"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::11",
+      "target": "adam.dm_clean",
+      "key": "applies_to:rule::11->adam.dm_clean"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::11",
+      "target": "raw.site_lookup",
+      "key": "applies_to:rule::11->raw.site_lookup"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::12",
+      "target": "adam.dm_clean",
+      "key": "applies_to:rule::12->adam.dm_clean"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::12",
+      "target": "raw.site_lookup",
+      "key": "applies_to:rule::12->raw.site_lookup"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::13",
+      "target": "adam.adsl",
+      "key": "applies_to:rule::13->adam.adsl"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::13",
+      "target": "adam.ae_clean",
+      "key": "applies_to:rule::13->adam.ae_clean"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::14",
+      "target": "adam.adsl",
+      "key": "applies_to:rule::14->adam.adsl"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::14",
+      "target": "adam.ae_clean",
+      "key": "applies_to:rule::14->adam.ae_clean"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::15",
+      "target": "adam.adsl",
+      "key": "applies_to:rule::15->adam.adsl"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::15",
+      "target": "adam.ae_clean",
+      "key": "applies_to:rule::15->adam.ae_clean"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::16",
+      "target": "adam.adsl",
+      "key": "applies_to:rule::16->adam.adsl"
+    },
+    {
+      "kind": "applies_to",
+      "source": "rule::16",
+      "target": "adam.ae_clean",
+      "key": "applies_to:rule::16->adam.ae_clean"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::0",
+      "target": "adam.dm_clean.usubjid",
+      "key": "validates:constraint::0->adam.dm_clean.usubjid"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::0",
+      "target": "adam.adsl.usubjid",
+      "key": "validates:constraint::0->adam.adsl.usubjid"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::1",
+      "target": "adam.ae_clean.aestdt",
+      "key": "validates:constraint::1->adam.ae_clean.aestdt"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::2",
+      "target": "adam.ae_clean.aeterm",
+      "key": "validates:constraint::2->adam.ae_clean.aeterm"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::3",
+      "target": "adam.adsl.saffl",
+      "key": "validates:constraint::3->adam.adsl.saffl"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::3",
+      "target": "adam.adae.saffl",
+      "key": "validates:constraint::3->adam.adae.saffl"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::4",
+      "target": "adam.adsl.ittfl",
+      "key": "validates:constraint::4->adam.adsl.ittfl"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::4",
+      "target": "adam.adae.ittfl",
+      "key": "validates:constraint::4->adam.adae.ittfl"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::5",
+      "target": "adam.adae.trtemfl",
+      "key": "validates:constraint::5->adam.adae.trtemfl"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::6",
+      "target": "adam.adae.ontrtfl",
+      "key": "validates:constraint::6->adam.adae.ontrtfl"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::7",
+      "target": "adam.ae_clean.aesev_std",
+      "key": "validates:constraint::7->adam.ae_clean.aesev_std"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::7",
+      "target": "adam.adae.aesev_std",
+      "key": "validates:constraint::7->adam.adae.aesev_std"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::8",
+      "target": "adam.ae_clean.aesevn",
+      "key": "validates:constraint::8->adam.ae_clean.aesevn"
+    },
+    {
+      "kind": "validates",
+      "source": "constraint::8",
+      "target": "adam.adae.aesevn",
+      "key": "validates:constraint::8->adam.adae.aesevn"
+    }
+  ]
+}

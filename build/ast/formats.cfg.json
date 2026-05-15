@@ -1,0 +1,15 @@
+{
+  "program": "formats",
+  "nodes": [
+    {
+      "id": "b0",
+      "kind": "proc",
+      "label": "PROC format",
+      "line_start": 1,
+      "line_end": 31,
+      "inputs": [],
+      "outputs": []
+    }
+  ],
+  "edges": []
+}

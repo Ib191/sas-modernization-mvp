@@ -1,0 +1,231 @@
+{
+  "program": "03_derive_adsl",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\03_derive_adsl.sas",
+  "blocks": [
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 2,
+      "line_end": 2,
+      "raw_text_head": "options\n  mprint mlogic symbolgen            \n  missing=' '                        \n  fmtsearch=(work)                   \n  nodate nonumber"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 7,
+      "line_end": 7,
+      "raw_text_head": "%let PROJ_ROOT = %sysfunc(getoption(SASUSER))"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 8,
+      "line_end": 8,
+      "raw_text_head": "libname raw   \"%sysfunc(getoption(SASUSER))/input_data\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 9,
+      "line_end": 9,
+      "raw_text_head": "libname adam  \"%sysfunc(getoption(SASUSER))/adam\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 10,
+      "line_end": 10,
+      "raw_text_head": "libname tgt   \"%sysfunc(getoption(SASUSER))/output\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 11,
+      "line_end": 11,
+      "raw_text_head": "%put NOTE: Setup complete. PROJ_ROOT=&PROJ_ROOT"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sql",
+      "name": null,
+      "output_datasets": [
+        "work.dm_with_site"
+      ],
+      "input_datasets": [
+        "adam.dm_clean",
+        "raw.site_lookup"
+      ],
+      "statements": [
+        {
+          "kind": "sql_create_table",
+          "target": "work.dm_with_site",
+          "from": [
+            "adam.dm_clean"
+          ],
+          "join": [
+            "raw.site_lookup"
+          ],
+          "into_macro_var": null,
+          "line": 13,
+          "raw": "create table work.dm_with_site as\n  select\n    d.*,\n    s.site_name,\n    s.site_country,\n    s.site_region\n  from adam.dm_clean as d\n  left join raw.site_lookup as s\n    on d.siteid = s.site_id"
+        }
+      ],
+      "line_start": 12,
+      "line_end": 22,
+      "raw_text_head": "proc sql"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.adsl_pre"
+      ],
+      "input_datasets": [
+        "work.dm_with_site"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.dm_with_site",
+          "line": 24
+        },
+        {
+          "kind": "length",
+          "raw": "length saffl ittfl $1",
+          "line": 25
+        },
+        {
+          "kind": "if_assign",
+          "col": "saffl",
+          "expr": "'Y'",
+          "else_col": "saffl",
+          "else_expr": null,
+          "line": 26,
+          "raw": "if not missing(rfstdt) then saffl = 'Y'"
+        },
+        {
+          "kind": "raw",
+          "raw": "else saffl = 'N'",
+          "line": 27
+        },
+        {
+          "kind": "if_assign",
+          "col": "ittfl",
+          "expr": "'Y'",
+          "else_col": "ittfl",
+          "else_expr": null,
+          "line": 28,
+          "raw": "if saffl = 'Y' and arm ne 'PLACEBO' then ittfl = 'Y'"
+        },
+        {
+          "kind": "raw",
+          "raw": "else ittfl = 'N'",
+          "line": 29
+        }
+      ],
+      "line_start": 23,
+      "line_end": 30,
+      "raw_text_head": "data work.adsl_pre"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sql",
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [
+        "work.adsl_pre"
+      ],
+      "statements": [
+        {
+          "kind": "sql_select",
+          "target": null,
+          "from": [
+            "work.adsl_pre"
+          ],
+          "join": [],
+          "into_macro_var": "TRT_START_DT",
+          "line": 32,
+          "raw": "select max(rfstdt) into :TRT_START_DT trimmed\n  from work.adsl_pre\n  where saffl = 'Y'"
+        }
+      ],
+      "line_start": 31,
+      "line_end": 35,
+      "raw_text_head": "proc sql noprint"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 36,
+      "line_end": 36,
+      "raw_text_head": "%put NOTE: TRT_START_DT set to &TRT_START_DT (numeric SAS date)"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "adam.adsl"
+      ],
+      "input_datasets": [
+        "work.adsl_pre"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.adsl_pre",
+          "line": 38
+        },
+        {
+          "kind": "label",
+          "raw": "label\n    saffl       = 'Safety Population Flag'\n    ittfl       = 'Intent-to-Treat Population Flag'\n    site_name   = 'Site name'\n    site_country= 'Country'\n    site_region = 'Region'",
+          "line": 39
+        }
+      ],
+      "line_start": 37,
+      "line_end": 45,
+      "raw_text_head": "data adam.adsl"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 46,
+      "line_end": 46,
+      "raw_text_head": "%put NOTE: 03_derive_adsl.sas complete. Output: ADAM.ADSL"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": []
+}

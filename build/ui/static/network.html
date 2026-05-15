@@ -1,0 +1,357 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 700px;
+                 background-color: #0e1117;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ef4444", "font": {"color": "#fafafa"}, "id": "PROGRAM:01_clean_dm", "label": "01_clean_dm", "shape": "dot", "size": 13, "title": "\u003cb\u003eProgram\u003c/b\u003e: PROGRAM:01_clean_dm\u003cbr/\u003ename: 01_clean_dm"}, {"color": "#f59e0b", "font": {"color": "#fafafa"}, "id": "macro::is_treatment_emergent", "label": "is_treatment_emergent", "shape": "dot", "size": 9, "title": "\u003cb\u003eMacro\u003c/b\u003e: macro::is_treatment_emergent\u003cbr/\u003ename: is_treatment_emergent\u003cbr/\u003eparams: [\u0027ae_start\u0027]\u003cbr/\u003ereads_globals: [\u0027TRT_START_DT\u0027]\u003cbr/\u003ewrites_globals: []\u003cbr/\u003esource_file: C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas\u003cbr/\u003esource_line: 15"}, {"color": "#f59e0b", "font": {"color": "#fafafa"}, "id": "macro::safe_div", "label": "safe_div", "shape": "dot", "size": 9, "title": "\u003cb\u003eMacro\u003c/b\u003e: macro::safe_div\u003cbr/\u003ename: safe_div\u003cbr/\u003eparams: [\u0027num\u0027, \u0027den\u0027]\u003cbr/\u003ereads_globals: []\u003cbr/\u003ewrites_globals: []\u003cbr/\u003esource_file: C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas\u003cbr/\u003esource_line: 30"}, {"color": "#dc2626", "font": {"color": "#fafafa"}, "id": "issue::functional_spec-\u00a76.1", "label": "functional_spec-\u00a76.1", "shape": "dot", "size": 8, "title": "\u003cb\u003eOpenIssue\u003c/b\u003e: issue::functional_spec-\u00a76.1\u003cbr/\u003etickers: []\u003cbr/\u003etext: A 2023 CRF amendment caused some subjects to appear twice in the raw extract. Th\u2026\u003cbr/\u003esource_file: sas_codebase/docs/functional_spec.md\u003cbr/\u003esource_section: 6.1 DM duplicates (resolved by dedup logic)\u003cbr/\u003esource_line: 109"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "adam.adae", "label": "adam.adae", "shape": "dot", "size": 12, "title": "\u003cb\u003eDataset\u003c/b\u003e: adam.adae\u003cbr/\u003elibrary: adam\u003cbr/\u003ename: adae\u003cbr/\u003eproducer: 04_derive_adae\u003cbr/\u003esource_csv: ground_truth/adae.csv"}, {"color": "#dc2626", "font": {"color": "#fafafa"}, "id": "issue::SP-184", "label": "SP-184", "shape": "dot", "size": 9, "title": "\u003cb\u003eOpenIssue\u003c/b\u003e: issue::SP-184\u003cbr/\u003etickers: [\u0027SP-184\u0027]\u003cbr/\u003etext: ~5% of AE records arrive with `GRADE 1`/`GRADE 2`/`GRADE 3` style codes. These a\u2026\u003cbr/\u003esource_file: sas_codebase/docs/functional_spec.md\u003cbr/\u003esource_section: 6.2 Vendor B severity codes (deferred)\u003cbr/\u003esource_line: 113"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "adam.ae_clean", "label": "adam.ae_clean", "shape": "dot", "size": 10, "title": "\u003cb\u003eDataset\u003c/b\u003e: adam.ae_clean\u003cbr/\u003elibrary: adam\u003cbr/\u003ename: ae_clean\u003cbr/\u003eproducer: 02_clean_ae\u003cbr/\u003esource_csv: ground_truth/ae_clean.csv"}, {"color": "#f59e0b", "font": {"color": "#fafafa"}, "id": "macro::calc_age", "label": "calc_age", "shape": "dot", "size": 9, "title": "\u003cb\u003eMacro\u003c/b\u003e: macro::calc_age\u003cbr/\u003ename: calc_age\u003cbr/\u003eparams: [\u0027birth\u0027, \u0027ref\u0027]\u003cbr/\u003ereads_globals: []\u003cbr/\u003ewrites_globals: []\u003cbr/\u003esource_file: C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas\u003cbr/\u003esource_line: 10"}, {"color": "#f59e0b", "font": {"color": "#fafafa"}, "id": "macro::iso_to_sasdate", "label": "iso_to_sasdate", "shape": "dot", "size": 13, "title": "\u003cb\u003eMacro\u003c/b\u003e: macro::iso_to_sasdate\u003cbr/\u003ename: iso_to_sasdate\u003cbr/\u003eparams: [\u0027var\u0027]\u003cbr/\u003ereads_globals: []\u003cbr/\u003ewrites_globals: []\u003cbr/\u003esource_file: C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas\u003cbr/\u003esource_line: 5"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "raw.site_lookup", "label": "raw.site_lookup", "shape": "dot", "size": 10, "title": "\u003cb\u003eDataset\u003c/b\u003e: raw.site_lookup\u003cbr/\u003elibrary: raw\u003cbr/\u003ename: site_lookup\u003cbr/\u003eproducer: (input)\u003cbr/\u003esource_csv: input_data/site_lookup.csv"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "raw.ae", "label": "raw.ae", "shape": "dot", "size": 9, "title": "\u003cb\u003eDataset\u003c/b\u003e: raw.ae\u003cbr/\u003elibrary: raw\u003cbr/\u003ename: ae\u003cbr/\u003eproducer: (input)\u003cbr/\u003esource_csv: input_data/ae.csv"}, {"color": "#ef4444", "font": {"color": "#fafafa"}, "id": "PROGRAM:04_derive_adae", "label": "04_derive_adae", "shape": "dot", "size": 12, "title": "\u003cb\u003eProgram\u003c/b\u003e: PROGRAM:04_derive_adae\u003cbr/\u003ename: 04_derive_adae"}, {"color": "#f59e0b", "font": {"color": "#fafafa"}, "id": "macro::sev_to_rank", "label": "sev_to_rank", "shape": "dot", "size": 9, "title": "\u003cb\u003eMacro\u003c/b\u003e: macro::sev_to_rank\u003cbr/\u003ename: sev_to_rank\u003cbr/\u003eparams: [\u0027sev\u0027]\u003cbr/\u003ereads_globals: []\u003cbr/\u003ewrites_globals: []\u003cbr/\u003esource_file: C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas\u003cbr/\u003esource_line: 20"}, {"color": "#ef4444", "font": {"color": "#fafafa"}, "id": "PROGRAM:05_summary_safety", "label": "05_summary_safety", "shape": "dot", "size": 11, "title": "\u003cb\u003eProgram\u003c/b\u003e: PROGRAM:05_summary_safety\u003cbr/\u003ename: 05_summary_safety"}, {"color": "#ef4444", "font": {"color": "#fafafa"}, "id": "PROGRAM:03_derive_adsl", "label": "03_derive_adsl", "shape": "dot", "size": 11, "title": "\u003cb\u003eProgram\u003c/b\u003e: PROGRAM:03_derive_adsl\u003cbr/\u003ename: 03_derive_adsl"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "adam.adsl", "label": "adam.adsl", "shape": "dot", "size": 13, "title": "\u003cb\u003eDataset\u003c/b\u003e: adam.adsl\u003cbr/\u003elibrary: adam\u003cbr/\u003ename: adsl\u003cbr/\u003eproducer: 03_derive_adsl\u003cbr/\u003esource_csv: ground_truth/adsl.csv"}, {"color": "#dc2626", "font": {"color": "#fafafa"}, "id": "issue::functional_spec-\u00a76.4", "label": "functional_spec-\u00a76.4", "shape": "dot", "size": 9, "title": "\u003cb\u003eOpenIssue\u003c/b\u003e: issue::functional_spec-\u00a76.4\u003cbr/\u003etickers: []\u003cbr/\u003etext: DM stores `SITEID` as character (`\u002701\u0027`, `\u002702\u0027`...). The SITE_LOOKUP extract del\u2026\u003cbr/\u003esource_file: sas_codebase/docs/functional_spec.md\u003cbr/\u003esource_section: 6.4 Site lookup join\u003cbr/\u003esource_line: 125"}, {"color": "#dc2626", "font": {"color": "#fafafa"}, "id": "issue::SP-227", "label": "SP-227", "shape": "dot", "size": 8, "title": "\u003cb\u003eOpenIssue\u003c/b\u003e: issue::SP-227\u003cbr/\u003etickers: [\u0027SP-227\u0027]\u003cbr/\u003etext: The TRTEMFL definition in \u00a74.4 says \"first dose date\". The current implementatio\u2026\u003cbr/\u003esource_file: sas_codebase/docs/functional_spec.md\u003cbr/\u003esource_section: 6.3 \"First dose\" vs \"randomization\" date for TRTEMFL\u003cbr/\u003esource_line: 119"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "adam.ae_incidence", "label": "adam.ae_incidence", "shape": "dot", "size": 10, "title": "\u003cb\u003eDataset\u003c/b\u003e: adam.ae_incidence\u003cbr/\u003elibrary: adam\u003cbr/\u003ename: ae_incidence\u003cbr/\u003eproducer: 05_summary_safety\u003cbr/\u003esource_csv: ground_truth/ae_incidence.csv"}, {"color": "#ef4444", "font": {"color": "#fafafa"}, "id": "PROGRAM:02_clean_ae", "label": "02_clean_ae", "shape": "dot", "size": 12, "title": "\u003cb\u003eProgram\u003c/b\u003e: PROGRAM:02_clean_ae\u003cbr/\u003ename: 02_clean_ae"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "adam.dm_clean", "label": "adam.dm_clean", "shape": "dot", "size": 10, "title": "\u003cb\u003eDataset\u003c/b\u003e: adam.dm_clean\u003cbr/\u003elibrary: adam\u003cbr/\u003ename: dm_clean\u003cbr/\u003eproducer: 01_clean_dm\u003cbr/\u003esource_csv: ground_truth/dm_clean.csv"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "raw.dm", "label": "raw.dm", "shape": "dot", "size": 9, "title": "\u003cb\u003eDataset\u003c/b\u003e: raw.dm\u003cbr/\u003elibrary: raw\u003cbr/\u003ename: dm\u003cbr/\u003eproducer: (input)\u003cbr/\u003esource_csv: input_data/dm.csv"}, {"color": "#3b82f6", "font": {"color": "#fafafa"}, "id": "adam.ae_summary", "label": "adam.ae_summary", "shape": "dot", "size": 11, "title": "\u003cb\u003eDataset\u003c/b\u003e: adam.ae_summary\u003cbr/\u003elibrary: adam\u003cbr/\u003ename: ae_summary\u003cbr/\u003eproducer: 05_summary_safety\u003cbr/\u003esource_csv: ground_truth/ae_summary.csv"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#475569", "from": "PROGRAM:01_clean_dm", "label": "calls", "title": "calls", "to": "macro::iso_to_sasdate"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:01_clean_dm", "label": "calls", "title": "calls", "to": "macro::iso_to_sasdate"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:01_clean_dm", "label": "calls", "title": "calls", "to": "macro::iso_to_sasdate"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:01_clean_dm", "label": "calls", "title": "calls", "to": "macro::calc_age"}, {"arrows": "to", "color": "#475569", "from": "adam.adae", "label": "contributes_to", "title": "contributes_to", "to": "adam.ae_incidence"}, {"arrows": "to", "color": "#475569", "from": "adam.adae", "label": "contributes_to", "title": "contributes_to", "to": "adam.ae_summary"}, {"arrows": "to", "color": "#475569", "from": "adam.ae_clean", "label": "contributes_to", "title": "contributes_to", "to": "adam.adae"}, {"arrows": "to", "color": "#475569", "from": "raw.site_lookup", "label": "flagged_by", "title": "flagged_by", "to": "issue::functional_spec-\u00a76.4"}, {"arrows": "to", "color": "#475569", "from": "raw.site_lookup", "label": "contributes_to", "title": "contributes_to", "to": "adam.adsl"}, {"arrows": "to", "color": "#475569", "from": "raw.ae", "label": "contributes_to", "title": "contributes_to", "to": "adam.ae_clean"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:04_derive_adae", "label": "calls", "title": "calls", "to": "macro::is_treatment_emergent"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:04_derive_adae", "label": "depends_on", "title": "depends_on", "to": "PROGRAM:02_clean_ae"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:04_derive_adae", "label": "depends_on", "title": "depends_on", "to": "PROGRAM:03_derive_adsl"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:05_summary_safety", "label": "calls", "title": "calls", "to": "macro::safe_div"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:05_summary_safety", "label": "depends_on", "title": "depends_on", "to": "PROGRAM:03_derive_adsl"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:05_summary_safety", "label": "depends_on", "title": "depends_on", "to": "PROGRAM:04_derive_adae"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:03_derive_adsl", "label": "depends_on", "title": "depends_on", "to": "PROGRAM:01_clean_dm"}, {"arrows": "to", "color": "#475569", "from": "adam.adsl", "label": "contributes_to", "title": "contributes_to", "to": "adam.adae"}, {"arrows": "to", "color": "#475569", "from": "adam.adsl", "label": "contributes_to", "title": "contributes_to", "to": "adam.ae_incidence"}, {"arrows": "to", "color": "#475569", "from": "adam.adsl", "label": "contributes_to", "title": "contributes_to", "to": "adam.ae_summary"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:02_clean_ae", "label": "calls", "title": "calls", "to": "macro::iso_to_sasdate"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:02_clean_ae", "label": "calls", "title": "calls", "to": "macro::iso_to_sasdate"}, {"arrows": "to", "color": "#475569", "from": "PROGRAM:02_clean_ae", "label": "calls", "title": "calls", "to": "macro::sev_to_rank"}, {"arrows": "to", "color": "#475569", "from": "adam.dm_clean", "label": "contributes_to", "title": "contributes_to", "to": "adam.adsl"}, {"arrows": "to", "color": "#475569", "from": "raw.dm", "label": "contributes_to", "title": "contributes_to", "to": "adam.dm_clean"}, {"arrows": "to", "color": "#475569", "from": "adam.ae_summary", "label": "flagged_by", "title": "flagged_by", "to": "issue::SP-184"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -8000,
+            "springConstant": 0.04,
+            "springLength": 180
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

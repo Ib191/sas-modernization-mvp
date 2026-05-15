@@ -1,0 +1,265 @@
+{
+  "program": "05_summary_safety",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\05_summary_safety.sas",
+  "blocks": [
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 2,
+      "line_end": 2,
+      "raw_text_head": "options\n  mprint mlogic symbolgen            \n  missing=' '                        \n  fmtsearch=(work)                   \n  nodate nonumber"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 7,
+      "line_end": 7,
+      "raw_text_head": "%let PROJ_ROOT = %sysfunc(getoption(SASUSER))"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 8,
+      "line_end": 8,
+      "raw_text_head": "libname raw   \"%sysfunc(getoption(SASUSER))/input_data\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 9,
+      "line_end": 9,
+      "raw_text_head": "libname adam  \"%sysfunc(getoption(SASUSER))/adam\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 10,
+      "line_end": 10,
+      "raw_text_head": "libname tgt   \"%sysfunc(getoption(SASUSER))/output\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 11,
+      "line_end": 11,
+      "raw_text_head": "%put NOTE: Setup complete. PROJ_ROOT=&PROJ_ROOT"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sql",
+      "name": null,
+      "output_datasets": [
+        "work.denom"
+      ],
+      "input_datasets": [
+        "adam.adsl"
+      ],
+      "statements": [
+        {
+          "kind": "sql_create_table",
+          "target": "work.denom",
+          "from": [
+            "adam.adsl"
+          ],
+          "join": [],
+          "into_macro_var": null,
+          "line": 13,
+          "raw": "create table work.denom as\n  select arm, arm_decode, count(distinct usubjid) as n_subj\n  from adam.adsl\n  where saffl = 'Y'\n  group by arm, arm_decode"
+        }
+      ],
+      "line_start": 12,
+      "line_end": 18,
+      "raw_text_head": "proc sql"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sql",
+      "name": null,
+      "output_datasets": [
+        "work.ae_subj"
+      ],
+      "input_datasets": [
+        "adam.adae"
+      ],
+      "statements": [
+        {
+          "kind": "sql_create_table",
+          "target": "work.ae_subj",
+          "from": [
+            "adam.adae"
+          ],
+          "join": [],
+          "into_macro_var": null,
+          "line": 20,
+          "raw": "create table work.ae_subj as\n  select distinct\n    arm, arm_decode, usubjid, max_aesev, max_aesevn\n  from adam.adae\n  where trtemfl = 'Y'"
+        }
+      ],
+      "line_start": 19,
+      "line_end": 25,
+      "raw_text_head": "proc sql"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [
+        "work.ae_subj"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by arm max_aesevn",
+          "line": 27
+        }
+      ],
+      "line_start": 26,
+      "line_end": 28,
+      "raw_text_head": "proc sort data=work.ae_subj"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "summary",
+      "name": null,
+      "output_datasets": [
+        "work.ae_counts"
+      ],
+      "input_datasets": [
+        "work.ae_subj"
+      ],
+      "statements": [
+        {
+          "kind": "class",
+          "raw": "class arm arm_decode max_aesev max_aesevn",
+          "line": 30,
+          "cols": [
+            "arm",
+            "arm_decode",
+            "max_aesev",
+            "max_aesevn"
+          ]
+        },
+        {
+          "kind": "output",
+          "raw": "output out=work.ae_counts(drop=_type_ _freq_ rename=(_freq_=n_subj_with_ae))\n         n=n_subj_with_ae",
+          "line": 31
+        }
+      ],
+      "line_start": 29,
+      "line_end": 33,
+      "raw_text_head": "proc summary data=work.ae_subj nway"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sql",
+      "name": null,
+      "output_datasets": [
+        "adam.ae_incidence"
+      ],
+      "input_datasets": [
+        "work.ae_counts",
+        "work.denom"
+      ],
+      "statements": [
+        {
+          "kind": "sql_create_table",
+          "target": "adam.ae_incidence",
+          "from": [
+            "work.ae_counts"
+          ],
+          "join": [
+            "work.denom"
+          ],
+          "into_macro_var": null,
+          "line": 35,
+          "raw": "create table adam.ae_incidence as\n  select\n    c.arm,\n    c.arm_decode,\n    c.max_aesev as worst_severity,\n    c.max_aesevn as worst_severity_rank,\n    c.n_subj_with_ae,\n    d.n_subj as n_subj_total,\n    ((case when missing(d.n_subj) or d.n_subj = 0 then . else c.n_subj_with_ae / d.n_subj end)) as incidence_rate\n  from work.ae_counts as c\n  left join work.denom as d\n    on c.arm = d.arm\n  order by c.arm, c.max_aesevn"
+        }
+      ],
+      "line_start": 34,
+      "line_end": 48,
+      "raw_text_head": "proc sql"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sql",
+      "name": null,
+      "output_datasets": [
+        "adam.ae_summary"
+      ],
+      "input_datasets": [
+        "adam.adae"
+      ],
+      "statements": [
+        {
+          "kind": "sql_create_table",
+          "target": "adam.ae_summary",
+          "from": [
+            "adam.adae"
+          ],
+          "join": [],
+          "into_macro_var": null,
+          "line": 50,
+          "raw": "create table adam.ae_summary as\n  select\n    arm,\n    arm_decode,\n    aesev_std as severity,\n    count(*) as n_events,\n    sum(case when aeser='Y' then 1 else 0 end) as n_serious\n  from adam.adae\n  where trtemfl = 'Y'\n  group by arm, arm_decode, aesev_std\n  order by arm, aesev_std"
+        }
+      ],
+      "line_start": 49,
+      "line_end": 61,
+      "raw_text_head": "proc sql"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 62,
+      "line_end": 62,
+      "raw_text_head": "%put NOTE: 05_summary_safety.sas complete."
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 63,
+      "line_end": 63,
+      "raw_text_head": "%put NOTE: Outputs: ADAM.AE_SUMMARY (event counts), ADAM.AE_INCIDENCE (subject incidence)"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": [
+    {
+      "macro": "safe_div",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\05_summary_safety.sas",
+      "line": 35,
+      "arg_text": "num=c.n_subj_with_ae, den=d.n_subj"
+    }
+  ]
+}

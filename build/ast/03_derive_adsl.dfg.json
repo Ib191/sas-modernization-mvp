@@ -1,0 +1,99 @@
+{
+  "program": "03_derive_adsl",
+  "nodes": [
+    {
+      "id": "adam.dm_clean",
+      "kind": "Dataset"
+    },
+    {
+      "id": "raw.site_lookup",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.dm_with_site",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.adsl_pre",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.adsl_pre.saffl",
+      "kind": "Column",
+      "dataset": "work.adsl_pre",
+      "name": "saffl"
+    },
+    {
+      "id": "work.adsl_pre.ittfl",
+      "kind": "Column",
+      "dataset": "work.adsl_pre",
+      "name": "ittfl"
+    },
+    {
+      "id": "adam.adsl",
+      "kind": "Dataset"
+    }
+  ],
+  "edges": [
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "adam.dm_clean",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "raw.site_lookup",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "work.dm_with_site",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "adam.dm_clean",
+      "to": "work.dm_with_site",
+      "kind": "produces"
+    },
+    {
+      "from": "raw.site_lookup",
+      "to": "work.dm_with_site",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "work.adsl_pre.saffl",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "work.adsl_pre.ittfl",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "work.dm_with_site",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.dm_with_site",
+      "to": "work.adsl_pre",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "work.adsl_pre",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:03_derive_adsl",
+      "to": "work.adsl_pre",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.adsl_pre",
+      "to": "adam.adsl",
+      "kind": "produces"
+    }
+  ]
+}

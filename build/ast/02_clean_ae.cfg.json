@@ -1,0 +1,251 @@
+{
+  "program": "02_clean_ae",
+  "nodes": [
+    {
+      "id": "b0",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 2,
+      "line_end": 2,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b1",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 7,
+      "line_end": 7,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b2",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 8,
+      "line_end": 8,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b3",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 9,
+      "line_end": 9,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b4",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 10,
+      "line_end": 10,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b5",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 11,
+      "line_end": 11,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b6",
+      "kind": "data",
+      "label": "DATA work.ae_stage",
+      "line_start": 12,
+      "line_end": 30,
+      "inputs": [
+        "raw.ae"
+      ],
+      "outputs": [
+        "work.ae_stage"
+      ]
+    },
+    {
+      "id": "b7",
+      "kind": "proc",
+      "label": "PROC sort",
+      "line_start": 31,
+      "line_end": 33,
+      "inputs": [
+        "work.ae_stage"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "b8",
+      "kind": "data",
+      "label": "DATA work.ae_seq",
+      "line_start": 34,
+      "line_end": 40,
+      "inputs": [
+        "work.ae_stage"
+      ],
+      "outputs": [
+        "work.ae_seq"
+      ]
+    },
+    {
+      "id": "b9",
+      "kind": "proc",
+      "label": "PROC sort",
+      "line_start": 41,
+      "line_end": 43,
+      "inputs": [
+        "work.ae_seq"
+      ],
+      "outputs": [
+        "work.ae_for_max"
+      ]
+    },
+    {
+      "id": "b10",
+      "kind": "data",
+      "label": "DATA work.ae_max_sev",
+      "line_start": 44,
+      "line_end": 50,
+      "inputs": [
+        "work.ae_for_max"
+      ],
+      "outputs": [
+        "work.ae_max_sev"
+      ]
+    },
+    {
+      "id": "b11",
+      "kind": "proc",
+      "label": "PROC sort",
+      "line_start": 51,
+      "line_end": 53,
+      "inputs": [
+        "work.ae_seq"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "b12",
+      "kind": "data",
+      "label": "DATA adam.ae_clean",
+      "line_start": 54,
+      "line_end": 72,
+      "inputs": [
+        "work.ae_seq",
+        "work.ae_max_sev"
+      ],
+      "outputs": [
+        "adam.ae_clean"
+      ]
+    },
+    {
+      "id": "b13",
+      "kind": "misc",
+      "label": "misc",
+      "line_start": 73,
+      "line_end": 73,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b6_filter",
+      "kind": "filter",
+      "label": "delete row",
+      "line_start": 27,
+      "line_end": 27,
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "b6_filter",
+      "kind": "filter",
+      "label": "delete row",
+      "line_start": 28,
+      "line_end": 28,
+      "inputs": [],
+      "outputs": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "b0",
+      "to": "b1",
+      "kind": "sequential"
+    },
+    {
+      "from": "b1",
+      "to": "b2",
+      "kind": "sequential"
+    },
+    {
+      "from": "b2",
+      "to": "b3",
+      "kind": "sequential"
+    },
+    {
+      "from": "b3",
+      "to": "b4",
+      "kind": "sequential"
+    },
+    {
+      "from": "b4",
+      "to": "b5",
+      "kind": "sequential"
+    },
+    {
+      "from": "b5",
+      "to": "b6",
+      "kind": "sequential"
+    },
+    {
+      "from": "b6",
+      "to": "b7",
+      "kind": "sequential"
+    },
+    {
+      "from": "b7",
+      "to": "b8",
+      "kind": "sequential"
+    },
+    {
+      "from": "b8",
+      "to": "b9",
+      "kind": "sequential"
+    },
+    {
+      "from": "b9",
+      "to": "b10",
+      "kind": "sequential"
+    },
+    {
+      "from": "b10",
+      "to": "b11",
+      "kind": "sequential"
+    },
+    {
+      "from": "b11",
+      "to": "b12",
+      "kind": "sequential"
+    },
+    {
+      "from": "b12",
+      "to": "b13",
+      "kind": "sequential"
+    },
+    {
+      "from": "b6",
+      "to": "b6_filter",
+      "kind": "branch_filter"
+    },
+    {
+      "from": "b6",
+      "to": "b6_filter",
+      "kind": "branch_filter"
+    }
+  ]
+}

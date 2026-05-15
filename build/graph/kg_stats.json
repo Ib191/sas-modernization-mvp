@@ -1,0 +1,76 @@
+{
+  "node_counts_by_kind": {
+    "Dataset": 9,
+    "Column": 99,
+    "Proc": 25,
+    "Macro": 5,
+    "Program": 5,
+    "BusinessRule": 17,
+    "OpenIssue": 4,
+    "Constraint": 9
+  },
+  "edge_counts_by_kind": {
+    "contributes_to": 10,
+    "flagged_by": 8,
+    "reads": 9,
+    "writes": 24,
+    "calls": 9,
+    "depends_on": 5,
+    "applies_to": 14,
+    "validates": 14
+  },
+  "total_nodes": 173,
+  "total_edges": 93,
+  "most_connected": [
+    {
+      "id": "adam.adsl",
+      "degree": 12,
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.ae_clean",
+      "degree": 8,
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.dm_clean",
+      "degree": 7,
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.adae",
+      "degree": 7,
+      "kind": "Dataset"
+    },
+    {
+      "id": "raw.site_lookup",
+      "degree": 6,
+      "kind": "Dataset"
+    },
+    {
+      "id": "05_summary_safety::b10",
+      "degree": 5,
+      "kind": "Proc"
+    },
+    {
+      "id": "05_summary_safety::b11",
+      "degree": 5,
+      "kind": "Proc"
+    },
+    {
+      "id": "macro::iso_to_sasdate",
+      "degree": 5,
+      "kind": "Macro"
+    },
+    {
+      "id": "PROGRAM:01_clean_dm",
+      "degree": 5,
+      "kind": "Program"
+    },
+    {
+      "id": "issue::functional_spec-\u00a76.4",
+      "degree": 5,
+      "kind": "OpenIssue"
+    }
+  ]
+}

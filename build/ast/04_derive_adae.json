@@ -1,0 +1,272 @@
+{
+  "program": "04_derive_adae",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\04_derive_adae.sas",
+  "blocks": [
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 2,
+      "line_end": 2,
+      "raw_text_head": "options\n  mprint mlogic symbolgen            \n  missing=' '                        \n  fmtsearch=(work)                   \n  nodate nonumber"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 7,
+      "line_end": 7,
+      "raw_text_head": "%let PROJ_ROOT = %sysfunc(getoption(SASUSER))"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 8,
+      "line_end": 8,
+      "raw_text_head": "libname raw   \"%sysfunc(getoption(SASUSER))/input_data\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 9,
+      "line_end": 9,
+      "raw_text_head": "libname adam  \"%sysfunc(getoption(SASUSER))/adam\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 10,
+      "line_end": 10,
+      "raw_text_head": "libname tgt   \"%sysfunc(getoption(SASUSER))/output\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 11,
+      "line_end": 11,
+      "raw_text_head": "%put NOTE: Setup complete. PROJ_ROOT=&PROJ_ROOT"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 12,
+      "line_end": 12,
+      "raw_text_head": "%if not %symexist(TRT_START_DT) %then %do"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 13,
+      "line_end": 13,
+      "raw_text_head": "%put WARNING: TRT_START_DT not set. Run 03_derive_adsl.sas first."
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 14,
+      "line_end": 14,
+      "raw_text_head": "%end"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [
+        "work.ae_sorted"
+      ],
+      "input_datasets": [
+        "adam.ae_clean"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by usubjid",
+          "line": 16
+        }
+      ],
+      "line_start": 15,
+      "line_end": 17,
+      "raw_text_head": "proc sort data=adam.ae_clean out=work.ae_sorted"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [
+        "work.adsl_sub"
+      ],
+      "input_datasets": [
+        "adam.adsl"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by usubjid",
+          "line": 20
+        }
+      ],
+      "line_start": 18,
+      "line_end": 21,
+      "raw_text_head": "proc sort data=adam.adsl(keep=usubjid age agegrp sex arm arm_decode rfstdt rfendt saffl ittfl)\n          out=work.adsl_sub"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.adae_pre"
+      ],
+      "input_datasets": [
+        "work.ae_sorted",
+        "work.adsl_sub"
+      ],
+      "statements": [
+        {
+          "kind": "merge",
+          "raw": "merge work.ae_sorted(in=a)\n        work.adsl_sub(in=b)",
+          "line": 23
+        },
+        {
+          "kind": "by",
+          "raw": "by usubjid",
+          "line": 25
+        },
+        {
+          "kind": "raw",
+          "raw": "if a and b",
+          "line": 26
+        },
+        {
+          "kind": "length",
+          "raw": "length trtemfl $1",
+          "line": 27
+        },
+        {
+          "kind": "if_assign",
+          "col": "trtemfl",
+          "expr": "'Y'",
+          "else_col": "trtemfl",
+          "else_expr": null,
+          "line": 28,
+          "raw": "if ((not missing(aestdt) and aestdt >= &TRT_START_DT)) then trtemfl = 'Y'"
+        },
+        {
+          "kind": "raw",
+          "raw": "else trtemfl = 'N'",
+          "line": 29
+        },
+        {
+          "kind": "length",
+          "raw": "length ontrtfl $1",
+          "line": 30
+        },
+        {
+          "kind": "if_assign",
+          "col": "ontrtfl",
+          "expr": "'Y'",
+          "else_col": "ontrtfl",
+          "else_expr": null,
+          "line": 31,
+          "raw": "if not missing(aestdt) and not missing(rfstdt) and not missing(rfendt)\n     and rfstdt <= aestdt <= rfendt then ontrtfl = 'Y'"
+        },
+        {
+          "kind": "raw",
+          "raw": "else ontrtfl = 'N'",
+          "line": 33
+        },
+        {
+          "kind": "if_assign",
+          "col": "astdy",
+          "expr": "aestdt - rfstdt + 1",
+          "else_col": "astdy",
+          "else_expr": null,
+          "line": 34,
+          "raw": "if not missing(aestdt) and not missing(rfstdt) then\n    astdy = aestdt - rfstdt + 1"
+        }
+      ],
+      "line_start": 22,
+      "line_end": 36,
+      "raw_text_head": "data work.adae_pre"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "adam.adae"
+      ],
+      "input_datasets": [
+        "work.adae_pre"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.adae_pre",
+          "line": 38
+        },
+        {
+          "kind": "label",
+          "raw": "label\n    trtemfl = 'Treatment Emergent Flag'\n    ontrtfl = 'On-Treatment Flag'\n    astdy   = 'Analysis Start Day relative to ref start'",
+          "line": 39
+        }
+      ],
+      "line_start": 37,
+      "line_end": 43,
+      "raw_text_head": "data adam.adae"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 44,
+      "line_end": 44,
+      "raw_text_head": "%put NOTE: 04_derive_adae.sas complete. Output: ADAM.ADAE"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": [
+    {
+      "macro": "is_treatment_emergent",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\04_derive_adae.sas",
+      "line": 28,
+      "arg_text": "ae_start=aestdt"
+    }
+  ]
+}

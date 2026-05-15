@@ -1,0 +1,161 @@
+{
+  "program": "02_clean_ae",
+  "nodes": [
+    {
+      "id": "raw.ae",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_stage",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_stage.aesev_std",
+      "kind": "Column",
+      "dataset": "work.ae_stage",
+      "name": "aesev_std"
+    },
+    {
+      "id": "work.ae_stage.aedur",
+      "kind": "Column",
+      "dataset": "work.ae_stage",
+      "name": "aedur"
+    },
+    {
+      "id": "work.ae_seq",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_seq.aeseq",
+      "kind": "Column",
+      "dataset": "work.ae_seq",
+      "name": "aeseq"
+    },
+    {
+      "id": "work.ae_for_max",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_max_sev",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_max_sev.max_aesevn",
+      "kind": "Column",
+      "dataset": "work.ae_max_sev",
+      "name": "max_aesevn"
+    },
+    {
+      "id": "work.ae_max_sev.max_aesev",
+      "kind": "Column",
+      "dataset": "work.ae_max_sev",
+      "name": "max_aesev"
+    },
+    {
+      "id": "adam.ae_clean",
+      "kind": "Dataset"
+    }
+  ],
+  "edges": [
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_stage.aesev_std",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_stage.aedur",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "raw.ae",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "raw.ae",
+      "to": "work.ae_stage",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_stage",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_seq.aeseq",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_stage",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.ae_stage",
+      "to": "work.ae_seq",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_seq",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_for_max",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "work.ae_seq",
+      "to": "work.ae_for_max",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_max_sev.max_aesevn",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_max_sev.max_aesev",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_for_max",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.ae_for_max",
+      "to": "work.ae_max_sev",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_seq",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_seq",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.ae_seq",
+      "to": "adam.ae_clean",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:02_clean_ae",
+      "to": "work.ae_max_sev",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.ae_max_sev",
+      "to": "adam.ae_clean",
+      "kind": "produces"
+    }
+  ]
+}

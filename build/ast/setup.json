@@ -1,0 +1,74 @@
+{
+  "program": "setup",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\config\\setup.sas",
+  "blocks": [
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 1,
+      "line_end": 1,
+      "raw_text_head": "options\n  mprint mlogic symbolgen            \n  missing=' '                        \n  fmtsearch=(work)                   \n  nodate nonumber"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 6,
+      "line_end": 6,
+      "raw_text_head": "%let PROJ_ROOT = %sysfunc(getoption(SASUSER))"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 7,
+      "line_end": 7,
+      "raw_text_head": "libname raw   \"%sysfunc(getoption(SASUSER))/input_data\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 8,
+      "line_end": 8,
+      "raw_text_head": "libname adam  \"%sysfunc(getoption(SASUSER))/adam\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 9,
+      "line_end": 9,
+      "raw_text_head": "libname tgt   \"%sysfunc(getoption(SASUSER))/output\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 10,
+      "line_end": 10,
+      "raw_text_head": "%put NOTE: Setup complete. PROJ_ROOT=&PROJ_ROOT"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": []
+}

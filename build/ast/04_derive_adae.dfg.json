@@ -1,0 +1,124 @@
+{
+  "program": "04_derive_adae",
+  "nodes": [
+    {
+      "id": "adam.ae_clean",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.ae_sorted",
+      "kind": "Dataset"
+    },
+    {
+      "id": "adam.adsl",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.adsl_sub",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.adae_pre",
+      "kind": "Dataset"
+    },
+    {
+      "id": "work.adae_pre.trtemfl",
+      "kind": "Column",
+      "dataset": "work.adae_pre",
+      "name": "trtemfl"
+    },
+    {
+      "id": "work.adae_pre.ontrtfl",
+      "kind": "Column",
+      "dataset": "work.adae_pre",
+      "name": "ontrtfl"
+    },
+    {
+      "id": "work.adae_pre.astdy",
+      "kind": "Column",
+      "dataset": "work.adae_pre",
+      "name": "astdy"
+    },
+    {
+      "id": "adam.adae",
+      "kind": "Dataset"
+    }
+  ],
+  "edges": [
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "adam.ae_clean",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.ae_sorted",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "adam.ae_clean",
+      "to": "work.ae_sorted",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "adam.adsl",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.adsl_sub",
+      "kind": "writes_dataset"
+    },
+    {
+      "from": "adam.adsl",
+      "to": "work.adsl_sub",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.adae_pre.trtemfl",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.adae_pre.ontrtfl",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.adae_pre.astdy",
+      "kind": "writes"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.ae_sorted",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.ae_sorted",
+      "to": "work.adae_pre",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.adsl_sub",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.adsl_sub",
+      "to": "work.adae_pre",
+      "kind": "produces"
+    },
+    {
+      "from": "PROGRAM:04_derive_adae",
+      "to": "work.adae_pre",
+      "kind": "reads_dataset"
+    },
+    {
+      "from": "work.adae_pre",
+      "to": "adam.adae",
+      "kind": "produces"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "symbols": {
+    "proj_root": "%sysfunc(getoption(SASUSER))"
+  },
+  "macros": [
+    {
+      "name": "iso_to_sasdate",
+      "params": [
+        {
+          "name": "var",
+          "default": null
+        }
+      ],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 5,
+      "reads_globals": [],
+      "writes_globals": []
+    },
+    {
+      "name": "calc_age",
+      "params": [
+        {
+          "name": "birth",
+          "default": null
+        },
+        {
+          "name": "ref",
+          "default": null
+        }
+      ],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 10,
+      "reads_globals": [],
+      "writes_globals": []
+    },
+    {
+      "name": "is_treatment_emergent",
+      "params": [
+        {
+          "name": "ae_start",
+          "default": null
+        }
+      ],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 15,
+      "reads_globals": [
+        "TRT_START_DT"
+      ],
+      "writes_globals": []
+    },
+    {
+      "name": "sev_to_rank",
+      "params": [
+        {
+          "name": "sev",
+          "default": null
+        }
+      ],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 20,
+      "reads_globals": [],
+      "writes_globals": []
+    },
+    {
+      "name": "safe_div",
+      "params": [
+        {
+          "name": "num",
+          "default": null
+        },
+        {
+          "name": "den",
+          "default": null
+        }
+      ],
+      "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\macros\\util_macros.sas",
+      "source_line": 30,
+      "reads_globals": [],
+      "writes_globals": []
+    }
+  ]
+}

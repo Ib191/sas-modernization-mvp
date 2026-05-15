@@ -1,0 +1,381 @@
+{
+  "program": "02_clean_ae",
+  "source_file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\02_clean_ae.sas",
+  "blocks": [
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 2,
+      "line_end": 2,
+      "raw_text_head": "options\n  mprint mlogic symbolgen            \n  missing=' '                        \n  fmtsearch=(work)                   \n  nodate nonumber"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 7,
+      "line_end": 7,
+      "raw_text_head": "%let PROJ_ROOT = %sysfunc(getoption(SASUSER))"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 8,
+      "line_end": 8,
+      "raw_text_head": "libname raw   \"%sysfunc(getoption(SASUSER))/input_data\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 9,
+      "line_end": 9,
+      "raw_text_head": "libname adam  \"%sysfunc(getoption(SASUSER))/adam\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 10,
+      "line_end": 10,
+      "raw_text_head": "libname tgt   \"%sysfunc(getoption(SASUSER))/output\""
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 11,
+      "line_end": 11,
+      "raw_text_head": "%put NOTE: Setup complete. PROJ_ROOT=&PROJ_ROOT"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.ae_stage"
+      ],
+      "input_datasets": [
+        "raw.ae"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set raw.ae",
+          "line": 13
+        },
+        {
+          "kind": "sum_assign",
+          "col": "aestdt",
+          "expr": "(input(substr(strip(aestdtc), 1, 10), ?? yymmdd10.))",
+          "line": 14,
+          "raw": "aestdt = (input(substr(strip(aestdtc), 1, 10), ?? yymmdd10.))"
+        },
+        {
+          "kind": "sum_assign",
+          "col": "aeendt",
+          "expr": "(input(substr(strip(aeendtc), 1, 10), ?? yymmdd10.))",
+          "line": 15,
+          "raw": "aeendt = (input(substr(strip(aeendtc), 1, 10), ?? yymmdd10.))"
+        },
+        {
+          "kind": "format",
+          "raw": "format aestdt aeendt yymmdd10.",
+          "line": 16
+        },
+        {
+          "kind": "length",
+          "raw": "length aesev_std $10",
+          "line": 17
+        },
+        {
+          "kind": "if_assign",
+          "col": "aesev_std",
+          "expr": "'MILD'",
+          "else_col": "aesev_std",
+          "else_expr": null,
+          "line": 18,
+          "raw": "if upcase(strip(aesev)) in ('MILD','1') then aesev_std = 'MILD'"
+        },
+        {
+          "kind": "raw",
+          "raw": "else if upcase(strip(aesev)) in ('MODERATE','MOD','2') then aesev_std = 'MODERATE'",
+          "line": 19
+        },
+        {
+          "kind": "raw",
+          "raw": "else if upcase(strip(aesev)) in ('SEVERE','SEV','3') then aesev_std = 'SEVERE'",
+          "line": 20
+        },
+        {
+          "kind": "sum_assign",
+          "col": "aesevn",
+          "expr": "((case\n     when upcase(strip(aesev_std)) = 'MILD'     then 1\n     when upcase(strip(aesev_std)) = 'MODERATE' then 2\n     when upcase(strip(aesev_std)) = 'SEVERE'   then 3\n     else .\n   end))",
+          "line": 21,
+          "raw": "aesevn = ((case\n     when upcase(strip(aesev_std)) = 'MILD'     then 1\n     when upcase(strip(aesev_std)) = 'MODERATE' then 2\n     when upcase(strip(aesev_std)) = 'SEVERE'   then 3\n     else .\n   end))"
+        },
+        {
+          "kind": "if_delete",
+          "raw": "if missing(aestdt) then delete",
+          "line": 27
+        },
+        {
+          "kind": "if_delete",
+          "raw": "if missing(aeterm) then delete",
+          "line": 28
+        },
+        {
+          "kind": "if_assign",
+          "col": "aedur",
+          "expr": "aeendt - aestdt + 1",
+          "else_col": "aedur",
+          "else_expr": null,
+          "line": 29,
+          "raw": "if not missing(aeendt) then aedur = aeendt - aestdt + 1"
+        }
+      ],
+      "line_start": 12,
+      "line_end": 30,
+      "raw_text_head": "data work.ae_stage"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [
+        "work.ae_stage"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by usubjid aestdt aeterm",
+          "line": 32
+        }
+      ],
+      "line_start": 31,
+      "line_end": 33,
+      "raw_text_head": "proc sort data=work.ae_stage"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.ae_seq"
+      ],
+      "input_datasets": [
+        "work.ae_stage"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.ae_stage",
+          "line": 35
+        },
+        {
+          "kind": "by",
+          "raw": "by usubjid aestdt aeterm",
+          "line": 36
+        },
+        {
+          "kind": "retain",
+          "raw": "retain aeseq",
+          "line": 37
+        },
+        {
+          "kind": "if_assign",
+          "col": "aeseq",
+          "expr": "0",
+          "else_col": "aeseq",
+          "else_expr": null,
+          "line": 38,
+          "raw": "if first.usubjid then aeseq = 0"
+        },
+        {
+          "kind": "raw",
+          "raw": "aeseq + 1",
+          "line": 39
+        }
+      ],
+      "line_start": 34,
+      "line_end": 40,
+      "raw_text_head": "data work.ae_seq"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [
+        "work.ae_for_max"
+      ],
+      "input_datasets": [
+        "work.ae_seq"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by usubjid aesevn",
+          "line": 42
+        }
+      ],
+      "line_start": 41,
+      "line_end": 43,
+      "raw_text_head": "proc sort data=work.ae_seq out=work.ae_for_max"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "work.ae_max_sev"
+      ],
+      "input_datasets": [
+        "work.ae_for_max"
+      ],
+      "statements": [
+        {
+          "kind": "set",
+          "raw": "set work.ae_for_max",
+          "line": 45
+        },
+        {
+          "kind": "by",
+          "raw": "by usubjid aesevn",
+          "line": 46
+        },
+        {
+          "kind": "raw",
+          "raw": "if last.usubjid",
+          "line": 47
+        },
+        {
+          "kind": "rename",
+          "raw": "rename aesevn = max_aesevn aesev_std = max_aesev",
+          "line": 48
+        },
+        {
+          "kind": "keep",
+          "cols": [
+            "usubjid",
+            "aesevn",
+            "aesev_std"
+          ],
+          "line": 49,
+          "raw": "keep usubjid aesevn aesev_std"
+        }
+      ],
+      "line_start": 44,
+      "line_end": 50,
+      "raw_text_head": "data work.ae_max_sev"
+    },
+    {
+      "kind": "proc",
+      "proc_name": "sort",
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [
+        "work.ae_seq"
+      ],
+      "statements": [
+        {
+          "kind": "by",
+          "raw": "by usubjid",
+          "line": 52
+        }
+      ],
+      "line_start": 51,
+      "line_end": 53,
+      "raw_text_head": "proc sort data=work.ae_seq"
+    },
+    {
+      "kind": "data",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [
+        "adam.ae_clean"
+      ],
+      "input_datasets": [
+        "work.ae_seq",
+        "work.ae_max_sev"
+      ],
+      "statements": [
+        {
+          "kind": "merge",
+          "raw": "merge work.ae_seq(in=a)\n        work.ae_max_sev(in=b)",
+          "line": 55
+        },
+        {
+          "kind": "by",
+          "raw": "by usubjid",
+          "line": 57
+        },
+        {
+          "kind": "raw",
+          "raw": "if a",
+          "line": 58
+        },
+        {
+          "kind": "label",
+          "raw": "label\n    usubjid    = 'Unique Subject Identifier'\n    aeseq      = 'AE sequence number'\n    aeterm     = 'AE reported term'\n    aestdt     = 'AE start date'\n    aeendt     = 'AE end date'\n    aedur      = 'AE duration (days)'\n    aesev      = 'AE severity (raw)'\n    aesev_std  = 'AE severity (standardized)'\n    aesevn     = 'AE severity (rank 1-3)'\n    aeser      = 'Serious AE flag'\n    max_aesev  = 'Subject max severity (text)'\n    max_aesevn = 'Subject max severity (rank)'",
+          "line": 59
+        }
+      ],
+      "line_start": 54,
+      "line_end": 72,
+      "raw_text_head": "data adam.ae_clean"
+    },
+    {
+      "kind": "misc",
+      "proc_name": null,
+      "name": null,
+      "output_datasets": [],
+      "input_datasets": [],
+      "statements": [],
+      "line_start": 73,
+      "line_end": 73,
+      "raw_text_head": "%put NOTE: 02_clean_ae.sas complete. Output: ADAM.AE_CLEAN"
+    }
+  ],
+  "includes": [],
+  "macro_call_sites": [
+    {
+      "macro": "iso_to_sasdate",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\02_clean_ae.sas",
+      "line": 9,
+      "arg_text": "var=aestdtc"
+    },
+    {
+      "macro": "iso_to_sasdate",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\02_clean_ae.sas",
+      "line": 10,
+      "arg_text": "var=aeendtc"
+    },
+    {
+      "macro": "sev_to_rank",
+      "file": "C:\\Users\\ilias\\SASMOD\\sas_codebase\\programs\\02_clean_ae.sas",
+      "line": 22,
+      "arg_text": "sev=aesev_std"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "programs": [
+    "setup",
+    "formats",
+    "util_macros",
+    "01_clean_dm",
+    "02_clean_ae",
+    "03_derive_adsl",
+    "04_derive_adae",
+    "05_summary_safety"
+  ],
+  "writers": {
+    "adam.dm_clean": "01_clean_dm",
+    "adam.ae_clean": "02_clean_ae",
+    "adam.adsl": "03_derive_adsl",
+    "adam.adae": "04_derive_adae",
+    "adam.ae_incidence": "05_summary_safety",
+    "adam.ae_summary": "05_summary_safety"
+  },
+  "edges": [
+    {
+      "from": "03_derive_adsl",
+      "to": "01_clean_dm",
+      "kind": "depends_on",
+      "via_dataset": "adam.dm_clean"
+    },
+    {
+      "from": "04_derive_adae",
+      "to": "02_clean_ae",
+      "kind": "depends_on",
+      "via_dataset": "adam.ae_clean"
+    },
+    {
+      "from": "04_derive_adae",
+      "to": "03_derive_adsl",
+      "kind": "depends_on",
+      "via_dataset": "adam.adsl"
+    },
+    {
+      "from": "05_summary_safety",
+      "to": "03_derive_adsl",
+      "kind": "depends_on",
+      "via_dataset": "adam.adsl"
+    },
+    {
+      "from": "05_summary_safety",
+      "to": "04_derive_adae",
+      "kind": "depends_on",
+      "via_dataset": "adam.adae"
+    }
+  ]
+}
