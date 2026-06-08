@@ -1,0 +1,45 @@
+# Disposition Workbook Validation Report
+Comparison of `Disposition_generated.xlsx` against the SAS reference output.
+**Outcome:** The translation is **not validated** — three reference sheets are missing entirely and several analytical cells (e.g. `n_arm2`, `n_arm3` counts) are zero instead of the expected counts.
+
+## At a glance
+| Metric | Value |
+| --- | --- |
+| Workbook pairs compared | 1 |
+| Sheets matching exactly | 0 (within reported sample) |
+| Analytical mismatches | 95 |
+| Cosmetic differences | 586 |
+| Structural differences | 5 |
+| Exact-match gap (zero tolerance) | 686 |
+
+## Sheet-by-sheet results
+| Sheet | Status | Result |
+| --- | --- | --- |
+| `group_detail` | ❌ Structural | Sheet missing in generated workbook |
+| `group_subset_info` | ❌ Structural | Sheet missing in generated workbook |
+| `subset_detail` | ❌ Structural | Sheet missing in generated workbook |
+| `Info` | ❌ Structural + Analytical | Shape 8×1 vs 7×1; last row (`Subset where dscat =`) missing; timestamp differs |
+| `DispositionANew` | ❌ Analytical + Cosmetic | Header casing (`DSCAT`→`dscat`, `DSDECOD`→`dsdecod`); `n_arm2`/`n_arm3` counts collapse to 0; `name2`/`name3` arm labels missing; `Lost To Follow-Up` vs `Lost To Follow-up` |
+| `DispositionBNew` | ❌ Analytical + Cosmetic | Same pattern as `DispositionANew` |
+| `Sheet1`, `Sheet10`, `Sheet10E`, `Sheet11` (and similar `SheetN` series) | ❌ Analytical + Cosmetic | First-row headers carry raw variable names (`dsdecod`, `c_perc1`–`c_perc3`) instead of the formatted titles (`Standardized Disposition Term`, `Placebo Events = …`, etc.); body rows show repeated `Lost To Follow-Up`/`Lost To Follow-up` case mismatch |
+
+## Notes
+
+**Structural issues**
+- Three reference sheets (`group_detail`, `group_subset_info`, `subset_detail`) are entirely absent in the generated workbook.
+- `Info` is one row shorter than the reference, and the trailing subset-description row is missing.
+
+**Analytical issues**
+- On `DispositionANew`/`DispositionBNew`, `n_arm2` and `n_arm3` values that should be `72` and `96` are reported as `0`, indicating the per-arm aggregation did not populate for those arms.
+- Across the `SheetN`/`SheetNE` series, row 0 contains the underlying column identifiers (`dsdecod`, `c_perc1`, `c_perc2`, `c_perc3`) rather than the formatted, count-bearing headers (`Standardized Disposition Term`, `Placebo Events = N`, `Xanomeline High Dose Events = N`, `Xanomeline Low Dose Events = N`). This is tagged as analytical because real label information (the embedded event counts) is lost.
+- The `Info` sheet timestamp differs (expected on every rerun) — not a true defect.
+
+**Cosmetic issues**
+- Header casing: variable names rendered lower-case (`dscat`, `dsdecod`) instead of upper-case in the reference.
+- Term capitalisation: `Lost To Follow-up` in the generated output vs `Lost To Follow-Up` in the reference — repeated across many rows in `Sheet11` and others, which inflates the cosmetic count substantially.
+- Missing arm name strings (`Xanomeline High Dose`, `Xanomeline Low Dose`) in `name2`/`name3` columns paired with the zero-count analytical issue above.
+
+## Conclusion
+The workbook **cannot be considered validated** under the configured tolerance (`abs_tol=1e-9`, `rel_tol=1e-6`). The blockers are concrete: three required sheets are missing, the `Info` sheet has a shape mismatch, and per-arm counts on the main disposition tables drop to zero for two of the three treatment arms.
+
+At zero tolerance, **686 exact-match differences remain** (95 analytical + 586 cosmetic + 5 structural), against a north-star goal of zero. Addressing the case-sensitivity of headers, the `Lost To Follow-Up` capitalisation, and the missing sheets/arm-count population should eliminate the bulk of the gap in a single pass.
